@@ -1,0 +1,107 @@
+<div class="row d-flex justify-content-between">
+    
+    <div class="col-5 card" *ngFor="let dato of datosFinales">
+    <h3>Comprador</h3>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Sellos</td>
+            <td>{{dato.valorSello/2}}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Aportes</td>
+            <td>{{dato.aportes/2}}</td>
+          </tr>  <tr>
+            <th scope="row">3</th>
+            <td>Honorarios</td>
+            <td>{{dato.honorarios}}</td>
+          </tr>  <tr>
+            <th scope="row">4</th>
+            <td>IVA</td>
+            <td>{{dato.iva}}</td>
+          </tr>  <tr>
+            <th scope="row">5</th>
+            <td>Inscripción</td>
+            <td>{{dato.inscripcion}}</td>
+          </tr>  <tr>
+            <th scope="row">6</th>
+            <td>Matricula</td>
+            <td>{{dato.matricula}}</td>
+          </tr>  <tr>
+            <th scope="row">7</th>
+            <td>Folios</td>
+            <td>{{dato.folios}}</td>
+          </tr>
+
+          <tr>
+            <th scope="row"> </th>
+            <td>TOTAL</td>
+            <td>{{totalComprador}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+
+
+<div class="col-5 card"  *ngFor="let dato of datosFinales">
+    <h3>Vendedor</h3>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Sellos</td>
+            <td>{{dato.valorSello/2}}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Aportes</td>
+            <td>{{dato.aportes/2}}</td>
+          </tr>  <tr>
+            <th scope="row">3</th>
+            <td>Certificados</td>
+            <td>{{dato.certificado}}</td>
+          </tr>  <tr>
+            <th scope="row">4</th>
+            <td>Municipal</td>
+            <td>{{dato.municipal}}</td>
+          </tr>  <tr>
+            <th scope="row">6</th>
+            <td>Dirigenciamiento</td>
+            <td>{{dato.dirigenciamiento}}</td>
+          </tr>  <tr>
+            <th scope="row">7</th>
+            <td>RCD</td>
+            <td>{{dato.rcd}}</td>
+          </tr>
+
+          <tr>
+            <th scope="row"> </th>
+            <td>TOTAL</td>
+            <td>{{totalVendedor}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+</div>
+
+   
+</div>
+
+
