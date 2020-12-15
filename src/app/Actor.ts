@@ -6,7 +6,7 @@ export interface Actor{
     id_acto: number;
     sellos: boolean;
     aporte: boolean;
-    honorario : boolean;
+    honorarios : boolean;
     iva: boolean;
     inscripcion: boolean;
     matricula: boolean;
