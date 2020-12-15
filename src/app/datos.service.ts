@@ -32,7 +32,10 @@ export class ActoDatosService {
     this._actoresList.push(actor);
     this.actoresList.next(this._actoresList);
   }
-
+  
+  eliminarActores(){
+    this._actoresList=[];
+    this.actoresList.next(this._actoresList);  }
 
 
 

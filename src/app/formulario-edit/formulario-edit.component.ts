@@ -138,6 +138,7 @@ export class FormularioEditComponent implements OnInit {
   }
 
   calculcarTotalActor(actorId: number) : void{
+    this.actoService.eliminarActores();
     let total =0;
     let id = this.getPosActorById(actorId);
     if(this.listaActores[id].sellos) total+=this.datos.valorSello/this.listaActores.length;
