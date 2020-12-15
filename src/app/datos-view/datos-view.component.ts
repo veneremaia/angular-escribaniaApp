@@ -13,9 +13,11 @@ export class DatosViewComponent implements OnInit {
  
   datosFinales: Datos[]=[];
   datosActores: Actor[]=[];
-  
+
   constructor(private datos: ActoDatosService,private actosDataService: ActosDataService) {
       this.datos.actoList.subscribe(d => this.datosFinales= d);
+      this.datos.actoresList.subscribe(d => this.datosActores= d);
+
 
       }
 
@@ -23,8 +25,6 @@ export class DatosViewComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.actosDataService.getAllActores()
-    .subscribe(actores =>this.datosActores = actores);
   }
 
 }

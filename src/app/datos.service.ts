@@ -13,10 +13,12 @@ export class ActoDatosService {
 
   private _actoList : Datos[] = [];
   private _actoresList : Actor[] = [];
+
   // Observable
   actoList : BehaviorSubject<Datos[]> = new BehaviorSubject<Datos[]>([]);
 
   actoresList : BehaviorSubject<Actor[]> = new BehaviorSubject<Actor[]>([]);
+
   constructor() { }
 
 
@@ -30,6 +32,8 @@ export class ActoDatosService {
     this._actoresList.push(actor);
     this.actoresList.next(this._actoresList);
   }
+
+
 
 
 }
