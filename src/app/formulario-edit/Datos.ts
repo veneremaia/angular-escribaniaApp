@@ -1,5 +1,9 @@
+import { Acto } from '../Acto';
+
 export interface Datos{
     nombreCliente : string;
+    nombreActo : string;
+    id_acto : number;
     valor: number;
     valorSello: number;
     honorarios: number;
@@ -7,7 +11,7 @@ export interface Datos{
     iva: number;
     certificado: number;
     municipal: number;
-    dirigenciamiento: number;
+    diligenciamiento: number;
     rcd: number;
     inscripcion: number;
     matricula: number;

@@ -1,24 +1,28 @@
 <h1>Formulario</h1>
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-12">
-      <select id="acto" class="form-control">
-        <option selected disabled>Seleccione el acto</option>
-        <option>Compra-venta</option>
-        <option>Otro</option>
-
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
+<form class="row g-3">
+  <div class="col-md-12">
+    <label for="inputEmail4" class="form-label">Acto</label>
+    <select id="acto" class="form-control" (change)="setActo($event.target!)" >
+      <option selected disabled>Seleccione el acto</option>
+      <option  *ngFor="let acto of actos" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
+      
+    </select>  </div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Valor</label>
       <input type="number" placeholder="Valor" class="form-control" id="inputValor" (keyup)="setValor($event)">
     </div>
-
-    <div id="sellos" class="form-group col-md-1">
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Certificados</label>
+    <input type="number" placeholder="Cantidad de certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
+  </div>
+  <div class="col-6">
+    <label for="inputAddress" class="form-label">Folios</label>
+    <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
+  </div>
+  <div class="col-6">
+    <div class="custom-control custom-radio custom-control-inline">
       <p>Sellos:</p>
     </div>
-
     <div class="custom-control custom-radio custom-control-inline">
       <input type="radio" value="1" (click)="setSello($event)" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
       <label class="custom-control-label" for="customRadioInline2">Si</label>
@@ -28,22 +32,13 @@
     <label class="custom-control-label" for="customRadioInline1">No</label>
     </div>
   
+
+</div>
+
+
+
+  <div class="col-12">
+    <button type="button" (click)="calcular()" class="btn btn-primary btn-lg btn-block btn-info">Calcular</button>
   </div>
-
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <input type="number" placeholder="Cantidad de certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
-    </div>
-
-    <div class="form-group col-md-6">
-      <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
-    </div>
-  </div>
-
 </form>
-<button type="button" (click)="calcular()" class="btn btn-primary btn-lg btn-block btn-info">Calcular</button>
-
-
-
 

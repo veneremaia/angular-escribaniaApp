@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActoDatosService } from '../acto-datos.service';
+import { Actor } from '../Actor';
+import { ActosDataService } from '../actos-data.service';
+import { ActoDatosService } from '../datos.service';
 import { Datos } from '../formulario-edit/Datos';
 
 @Component({
@@ -10,36 +12,19 @@ import { Datos } from '../formulario-edit/Datos';
 export class DatosViewComponent implements OnInit {
  
   datosFinales: Datos[]=[];
-  totalComprador : number =0;
-  totalVendedor : number=0;
-  constructor(private actoDatos: ActoDatosService) {
-      actoDatos.actoList.subscribe(d => this.datosFinales= d);
-     // this.calcularTotalComprador();
-     // this.calcularTotalVendedor();
-    }
+  datosActores: Actor[]=[];
+  
+  constructor(private datos: ActoDatosService,private actosDataService: ActosDataService) {
+      this.datos.actoList.subscribe(d => this.datosFinales= d);
+
+      }
 
 
-   /* calcularTotalVendedor(){
-      this.totalVendedor= this.datosFinales[1].valorSello+
-      this.datosFinales[0].aportes+
-      this.datosFinales[0].certificado+
-      this.datosFinales[0].municipal+
-      this.datosFinales[0].dirigenciamiento+
-      this.datosFinales[0].rcd;
-      console
-    }
 
-    calcularTotalComprador(){
-      this.totalVendedor= this.datosFinales[0].valorSello+
-      this.datosFinales[0].aportes+
-      this.datosFinales[0].honorarios+
-      this.datosFinales[0].iva+
-      this.datosFinales[0].inscripcion+
-      this.datosFinales[0].matricula+
-      this.datosFinales[0].folios;
-    }
-*/
+
   ngOnInit(): void {
+    this.actosDataService.getAllActores()
+    .subscribe(actores =>this.datosActores = actores);
   }
 
 }

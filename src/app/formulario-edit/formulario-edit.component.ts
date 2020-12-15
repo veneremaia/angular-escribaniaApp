@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActoDatosService } from '../acto-datos.service';
+import { Acto } from '../Acto';
+import { ActoDatosService } from '../datos.service';
+import { ActosDataService } from '../actos-data.service';
 import { Datos } from './Datos';
+import { Actor } from '../Actor';
 
 
 @Component({
@@ -9,9 +12,13 @@ import { Datos } from './Datos';
   styleUrls: ['./formulario-edit.component.scss']
 })
 export class FormularioEditComponent implements OnInit {
-
+  //Lista de actos desde la API
+  actos: Acto[] = [];
+  // Dato final que mostraremos en resultados
   datos : Datos  = {
-    nombreCliente: 'Bitter Call Saul',
+    nombreCliente: '',
+    nombreActo: '',
+    id_acto : 0,
     valor: 0,
     valorSello: 0,
     honorarios: 0,
@@ -19,28 +26,43 @@ export class FormularioEditComponent implements OnInit {
     iva: 0,
     certificado: 0,
     municipal: 1000,
-    dirigenciamiento: 0,
+    diligenciamiento: 0,
     rcd: 0,
     inscripcion: 0,
     matricula: 3500,
     folios: 0
   };
   
+  
   tieneSello : boolean = false;
-  min_valor : number;
-  total : number = 0;
-  gestor : number = 5500;
 
-  constructor(private actoDatosService: ActoDatosService) { 
-    this.min_valor = 150;
+  gestor : number = 5500;
+  actoActual: Acto = {
+    "id": 0,
+    "codigo_acto": "",
+    "nombre_acto": "",
+    "p_sellos": 0,
+    "p_honorarios": 0,
+    "min_honorarios": 0,
+    "p_aportes": 0,
+    "min_aportes": 0
+  };
+  datosActores: Actor[]=[];
+
+  constructor(private actoService: ActoDatosService,
+    private actosDataService: ActosDataService) { 
   }
 
   ngOnInit(): void {
+    this.actosDataService.getAllActos()
+    .subscribe(actos =>this.actos = actos);
+    console.log("Actos" +this.actos);
+    this.actosDataService.getAllActores()
+    .subscribe(actores =>this.datosActores = actores);
   }
 
   setValor(event: any) {
     this.datos.valor= event.target.value;
-    console.log("Valor: "+this.datos.valor);
   }
 
   setCertificados(event: any) {
@@ -60,26 +82,30 @@ export class FormularioEditComponent implements OnInit {
 
   calcularSello() : void {
     if(this.tieneSello)
-      this.datos.valorSello=this.datos.valor*2/100;
+    console.log("tiene sello");
+      this.datos.valorSello=this.datos.valor*this.actoActual.p_sellos/100;
+      console.log(this.datos.valor);
+      console.log(this.actoActual.p_sellos);
+
   }
 
   calcularHonorarios(): void{
-    if(this.datos.valor*2/100>21000)
-    this.datos.honorarios= this.datos.valor*2/100;
+    if(this.datos.valor*this.actoActual.p_honorarios/100>this.actoActual.min_honorarios)
+    this.datos.honorarios= this.datos.valor*this.actoActual.p_honorarios/100;
     else
-    this.datos.honorarios=21000;
+    this.datos.honorarios=this.actoActual.min_honorarios;
   }
 
   calcularIva(): void{
     this.datos.iva= this.datos.honorarios*21/100;
   }
 
-  calcularDirigenciamiento() : void{
+  calcularDiligenciamiento() : void{
     if(this.datos.valor<298116)
-      this.datos.dirigenciamiento=4175;
+      this.datos.diligenciamiento=4175;
     else{
       let excedente: number = this.datos.valor-298116;
-      this.datos.dirigenciamiento=(excedente/1000)*2+4175;
+      this.datos.diligenciamiento=(excedente/1000)*2+4175;
     }
   }
 
@@ -87,42 +113,49 @@ export class FormularioEditComponent implements OnInit {
     this.datos.inscripcion = this.datos.valor*0.002+this.gestor;
   }
   calcularAporte(){
-    this.datos.aportes=this.datos.valor*0.008;
+    if(this.datos.valor*this.actoActual.p_aportes>this.actoActual.min_aportes)
+      this.datos.aportes=this.datos.valor*this.actoActual.p_aportes;
+    else
+      this.datos.aportes= this.actoActual.min_aportes;
   }
-  calcularRDC(): void{
+  calcularRcd(): void{
     if(this.datos.valor*1/100>12096)
       this.datos.rcd=this.datos.valor*1/100;
     else
       this.datos.rcd=12096;
   }
 
+  calculcarPrecioActor(actor: Actor) : void{
+    let total =0;
+    if(actor.sellos) total+=this.datos.valorSello;
+  }
+
   actualizarDatos(datos : Datos){
-    this.actoDatosService.actualizar(datos);
+    this.actoService.actualizarDatos(datos);
   }
   calcular(){
-    this.total=0;
-    this.calcularSello();
-    this.calcularHonorarios();
-    this.calcularIva();
-    this.calcularAporte();
-    this.calcularRDC();
-    this.calcularInscripcion();
-    this.calcularDirigenciamiento();
-    
+    this.calcularSello(); // difiere x acto
+    this.calcularHonorarios(); // difiere x acto
+    this.calcularIva(); //siempre es el 21%
+    this.calcularAporte(); // difiere x acto
+    this.calcularRcd(); // lo configura la escribania
+    this.calcularInscripcion(); // 
+    this.calcularDiligenciamiento(); // lo configura la escribania esta en tabla
     this.actualizarDatos(this.datos);
-    this.total=
-    this.datos.valorSello+
-    this.datos.honorarios+
-    this.datos.aportes+
-    this.datos.iva+
-    this.datos.certificado+
-    this.datos.municipal+
-    this.datos.dirigenciamiento+
-    this.datos.rcd+
-    this.datos.inscripcion+
-    this.datos.matricula+
-    this.datos.folios+
-    this.datos.aportes;
 
   }
-}
+
+
+
+
+  setActo(event: any){  
+    this.actoActual = this.getActoById(event.value);
+    this.datos.nombreActo = event.nombre_acto;
+    console.log("Este es el acto " +this.actoActual.codigo_acto);
+  }
+  
+
+  getActoById(id : any) : any{
+   return this.actos.find(a => a.id==id);
+  }
+} 

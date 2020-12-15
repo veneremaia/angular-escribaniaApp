@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { DatosViewComponent } from './datos-view/datos-view.component';
 import { FormularioEditComponent } from './formulario-edit/formulario-edit.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { FormularioEditComponent } from './formulario-edit/formulario-edit.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

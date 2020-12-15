@@ -1,7 +1,8 @@
+<div class="contenedor-view">
 <div class="row d-flex justify-content-between">
-    
-    <div class="col-5 card" *ngFor="let dato of datosFinales">
-    <h3>Comprador</h3>
+  <div class="col-6" *ngFor="let actor of datosActores">
+  <div class="card"  *ngFor="let dato of datosFinales">
+    <h3>{{actor.nombre_actor}}</h3>
     <table class="table table-hover">
         <thead>
           <tr>
@@ -11,32 +12,49 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngIf="actor.sellos">
             <th scope="row">1</th>
             <td>Sellos</td>
-            <td>{{dato.valorSello/2}}</td>
+            <td>{{dato.valorSello/datosActores.length}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="actor.aporte">
             <th scope="row">2</th>
             <td>Aportes</td>
-            <td>{{dato.aportes/2}}</td>
-          </tr>  <tr>
+            <td>{{dato.aportes/datosActores.length}}</td>
+          </tr>  <tr *ngIf="actor.certificados">
+            <th scope="row">3</th>
+            <td>Certificados</td>
+            <td>{{dato.certificado}}</td>
+          </tr>  <tr *ngIf="actor.municipal">
+            <th scope="row">4</th>
+            <td>Municipal</td>
+            <td>{{dato.municipal}}</td>
+          </tr>  <tr *ngIf="actor.diligenciamiento">
+            <th scope="row">5</th>
+            <td>Dirigenciamiento</td>
+            <td>{{dato.diligenciamiento}}</td>
+          </tr>  <tr *ngIf="actor.rcd">
+            <th scope="row">6</th>
+            <td>RCD</td>
+            <td>{{dato.rcd}}</td>
+          </tr>
+          <tr *ngIf="actor.honorario">
             <th scope="row">3</th>
             <td>Honorarios</td>
             <td>{{dato.honorarios}}</td>
-          </tr>  <tr>
+          </tr>  <tr *ngIf="actor.iva">
             <th scope="row">4</th>
             <td>IVA</td>
             <td>{{dato.iva}}</td>
-          </tr>  <tr>
+          </tr>  <tr *ngIf="actor.inscripcion">
             <th scope="row">5</th>
             <td>Inscripción</td>
             <td>{{dato.inscripcion}}</td>
-          </tr>  <tr>
+          </tr>  <tr *ngIf="actor.matricula">
             <th scope="row">6</th>
             <td>Matricula</td>
             <td>{{dato.matricula}}</td>
-          </tr>  <tr>
+          </tr>  <tr *ngIf="actor.folios">
             <th scope="row">7</th>
             <td>Folios</td>
             <td>{{dato.folios}}</td>
@@ -45,63 +63,20 @@
           <tr>
             <th scope="row"> </th>
             <td>TOTAL</td>
-            <td>{{totalComprador}}</td>
-          </tr>
-        </tbody>
-      </table>
-</div>
-
-
-
-<div class="col-5 card"  *ngFor="let dato of datosFinales">
-    <h3>Vendedor</h3>
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Sellos</td>
-            <td>{{dato.valorSello/2}}</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Aportes</td>
-            <td>{{dato.aportes/2}}</td>
-          </tr>  <tr>
-            <th scope="row">3</th>
-            <td>Certificados</td>
-            <td>{{dato.certificado}}</td>
-          </tr>  <tr>
-            <th scope="row">4</th>
-            <td>Municipal</td>
-            <td>{{dato.municipal}}</td>
-          </tr>  <tr>
-            <th scope="row">6</th>
-            <td>Dirigenciamiento</td>
-            <td>{{dato.dirigenciamiento}}</td>
-          </tr>  <tr>
-            <th scope="row">7</th>
-            <td>RCD</td>
-            <td>{{dato.rcd}}</td>
-          </tr>
-
-          <tr>
-            <th scope="row"> </th>
-            <td>TOTAL</td>
-            <td>{{totalVendedor}}</td>
+            <td></td>
           </tr>
 
         </tbody>
       </table>
 </div>
+</div>
+    
+
+
+
+
 
    
 </div>
 
-
+</div>
