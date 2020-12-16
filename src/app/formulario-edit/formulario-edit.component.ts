@@ -82,15 +82,16 @@ export class FormularioEditComponent implements OnInit {
 
 
   setSello(event: any) {
-    this.tieneSello= event.target.value;
+
+    event.target.value==0 ? this.tieneSello=false : this.tieneSello = true;
+    console.log(this.tieneSello);
   }
 
   calcularSello() : void {
     if(this.tieneSello)
-    console.log("tiene sello");
       this.datos.valorSello=this.datos.valor*this.actoActual.p_sellos/100;
-      console.log(this.datos.valor);
-      console.log(this.actoActual.p_sellos);
+    console.log(this.datos.valor);
+    console.log(this.actoActual.p_sellos);
 
   }
 
