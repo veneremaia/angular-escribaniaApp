@@ -16,4 +16,6 @@ export interface Datos{
     inscripcion: number;
     matricula: number;
     folios: number;
+    valorGanancia: number;
+    valorIti: number;
 }

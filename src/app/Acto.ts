@@ -7,4 +7,6 @@ export interface Acto{
     min_honorarios: number;
     p_aportes: number;
     min_aportes: number;
+    p_ganancias: number;
+    p_iti: number;
 }

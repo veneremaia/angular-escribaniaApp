@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Acto } from './Acto';
 import { Actor } from './Actor';
+import { Escribania } from './Escribaniadatos';
 
-const URL_ACTOS = "https://5fc7fbabf3c77600165d8f57.mockapi.io/acto"
-const URL_ACTORES = "https://5fc7fbabf3c77600165d8f57.mockapi.io/actores"
+const URL_ACTOS = "https://5ff33aff28c3980017b19205.mockapi.io/acto"
+const URL_ACTORES = "https://5ff33aff28c3980017b19205.mockapi.io/actores"
+const URL_DATOS_ESCRIBANIA = "https://5ff33aff28c3980017b19205.mockapi.io/escribaniadatos"
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +25,10 @@ export class ActosDataService {
   public getAllActores() : Observable<Actor[]>{
     // devuelve un observable
     return this.http.get<Actor[]>(URL_ACTORES)
+  }
+
+  public getDatosEscribania() : Observable<Escribania[]>{
+    // devuelve un observable
+    return this.http.get<Escribania[]>(URL_DATOS_ESCRIBANIA)
   }
 }

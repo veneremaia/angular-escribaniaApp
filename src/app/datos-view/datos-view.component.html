@@ -15,55 +15,65 @@
           <tr *ngIf="actor.sellos">
             <th scope="row">1</th>
             <td>Sellos</td>
-            <td>{{dato.valorSello/datosActores.length}}</td>
+            <td>{{dato.valorSello/datosActores.length | number}}</td>
           </tr>
           <tr *ngIf="actor.aporte">
             <th scope="row">2</th>
             <td>Aportes</td>
-            <td>{{dato.aportes/datosActores.length}}</td>
+            <td>{{dato.aportes/datosActores.length | number}}</td>
           </tr>  <tr *ngIf="actor.certificados">
             <th scope="row">3</th>
             <td>Certificados</td>
-            <td>{{dato.certificado}}</td>
+            <td>{{dato.certificado | number}}</td>
           </tr>  <tr *ngIf="actor.municipal">
             <th scope="row">4</th>
             <td>Municipal</td>
-            <td>{{dato.municipal}}</td>
+            <td>{{dato.municipal | number}}</td>
           </tr>  <tr *ngIf="actor.diligenciamiento">
             <th scope="row">5</th>
             <td>Dirigenciamiento</td>
-            <td>{{dato.diligenciamiento}}</td>
+            <td>{{dato.diligenciamiento | number}}</td>
           </tr>  <tr *ngIf="actor.rcd">
             <th scope="row">6</th>
             <td>RCD</td>
-            <td>{{dato.rcd}}</td>
+            <td>{{dato.rcd | number}}</td>
           </tr>
           <tr *ngIf="actor.honorarios">
             <th scope="row">3</th>
             <td>Honorarios</td>
-            <td>{{dato.honorarios}}</td>
+            <td>{{dato.honorarios | number}}</td>
           </tr>  <tr *ngIf="actor.iva">
             <th scope="row">4</th>
             <td>IVA</td>
-            <td>{{dato.iva}}</td>
+            <td>{{dato.iva | number}}</td>
           </tr>  <tr *ngIf="actor.inscripcion">
             <th scope="row">5</th>
             <td>Inscripción</td>
-            <td>{{dato.inscripcion}}</td>
+            <td>{{dato.inscripcion | number}}</td>
           </tr>  <tr *ngIf="actor.matricula">
             <th scope="row">6</th>
             <td>Matricula</td>
-            <td>{{dato.matricula}}</td>
+            <td>{{dato.matricula | number}}</td>
           </tr>  <tr *ngIf="actor.folios">
             <th scope="row">7</th>
             <td>Folios</td>
-            <td>{{dato.folios}}</td>
+            <td>{{dato.folios | number}}</td>
           </tr>
-
+          <tr *ngIf="actor.ganancias">
+            <th scope="row">7</th>
+            <td>Ganancias</td>
+            <td>{{dato.valorGanancia | number}}</td>
+          </tr>
+          <tr *ngIf="actor.iti">
+            <th scope="row">7</th>
+            <td>Iti</td>
+            <td>{{dato.valorIti | number}}</td>
+          </tr>
+          
           <tr class="table-success">
             <th scope="row "> </th>
             <td >TOTAL</td>
-            <td >{{actor.total}}</td>
+            <td >{{actor.total | number}}</td>
           </tr>
 
         </tbody>

@@ -24,14 +24,46 @@
       <p>Sellos:</p>
     </div>
     <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" value="1" (click)="setSello($event)" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-      <label class="custom-control-label" for="customRadioInline2">Si</label>
+      <input type="radio" value="1" (click)="setSello($event)" id="conSello" name="conSello" class="custom-control-input">
+      <label class="custom-control-label" for="conSello">Si</label>
     </div>
     <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" value="0" (click)="setSello($event)"   id="customRadioInline1" name="customRadioInline1" class="custom-control-input" >
-    <label class="custom-control-label" for="customRadioInline1">No</label>
+    <input type="radio" value="0" (click)="setSello($event)"   id="sinSello" name="sinSello" class="custom-control-input" >
+    <label class="custom-control-label" for="sinSello">No</label>
     </div>
   
+
+</div>
+
+<div class="col-6">
+  <div class="custom-control custom-radio custom-control-inline">
+    <p>Ganancias:</p>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" value="1" (click)="setGanancias($event)" id="conGanancia" name="conGanancia" class="custom-control-input">
+    <label class="custom-control-label" for="conGanancia">Si</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" value="0" (click)="setGanancias($event)"   id="sinGanancia" name="sinGanancia" class="custom-control-input" >
+  <label class="custom-control-label" for="sinGanancia">No</label>
+  </div>
+
+
+</div>
+
+<div class="col-6">
+  <div class="custom-control custom-radio custom-control-inline">
+    <p>Iti:</p>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" value="1" (click)="setIti($event)" id="conIti" name="conIti" class="custom-control-input">
+    <label class="custom-control-label" for="conIti">Si</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" value="0" (click)="setIti($event)"   id="sinIti" name="sinIti" class="custom-control-input" >
+  <label class="custom-control-label" for="sinIti">No</label>
+  </div>
+
 
 </div>
 

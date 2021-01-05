@@ -5,6 +5,7 @@ import { ActosDataService } from '../actos-data.service';
 import { Datos } from './Datos';
 import { Actor } from '../Actor';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Escribania } from '../Escribaniadatos';
 
 
 @Component({
@@ -15,6 +16,11 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class FormularioEditComponent implements OnInit {
   //Lista de actos desde la API
   actos: Acto[] = [];
+  // Actores desde la API
+  listaActoresApi: Actor[]=[];
+  // Escribania desde la API
+  escribaniaDatosApi: Escribania[]=[];
+
   // Dato final que mostraremos en resultados
   datos : Datos  = {
     nombreCliente: '',
@@ -30,14 +36,13 @@ export class FormularioEditComponent implements OnInit {
     diligenciamiento: 0,
     rcd: 0,
     inscripcion: 0,
-    matricula: 3500,
-    folios: 0
+    matricula: 0,
+    folios: 0,
+    valorGanancia: 0,
+    valorIti: 0
   };
   
-  
-  tieneSello : boolean = false;
-
-  gestor : number = 5500;
+  // Acto seleccionado
   actoActual: Acto = {
     "id": 0,
     "codigo_acto": "",
@@ -46,10 +51,15 @@ export class FormularioEditComponent implements OnInit {
     "p_honorarios": 0,
     "min_honorarios": 0,
     "p_aportes": 0,
-    "min_aportes": 0
+    "min_aportes": 0,
+    "p_ganancias": 0,
+    "p_iti": 0
   };
-  // Actores desde la API
-  listaActoresApi: Actor[]=[];
+  
+  tieneSello : boolean = false;
+  tieneGanancia : boolean = false;
+  tieneIti: boolean = false;
+  
 
   // Actores a actualizar en el service
   listaActores : Actor[]=[];
@@ -64,6 +74,8 @@ export class FormularioEditComponent implements OnInit {
     console.log("Actos" +this.actos);
     this.actosDataService.getAllActores()
     .subscribe(actores =>this.listaActoresApi = actores);
+    this.actosDataService.getDatosEscribania()
+    .subscribe(escribania =>this.escribaniaDatosApi = escribania);
   }
 
   setValor(event: any) {
@@ -85,6 +97,18 @@ export class FormularioEditComponent implements OnInit {
 
     event.target.value==0 ? this.tieneSello=false : this.tieneSello = true;
     console.log(this.tieneSello);
+  }
+
+  setGanancias(event: any) {
+
+    event.target.value==0 ? this.tieneGanancia=false : this.tieneGanancia = true;
+    console.log(this.tieneGanancia);
+  }
+
+  setIti(event: any) {
+
+    event.target.value==0 ? this.tieneIti=false : this.tieneIti = true;
+    console.log(this.tieneIti);
   }
 
   calcularSello() : void {
@@ -116,7 +140,7 @@ export class FormularioEditComponent implements OnInit {
   }
 
   calcularInscripcion(): void {
-    this.datos.inscripcion = this.datos.valor*0.002+this.gestor;
+    this.datos.inscripcion = this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
   }
   calcularAporte(){
     if(this.datos.valor*this.actoActual.p_aportes>this.actoActual.min_aportes)
@@ -130,6 +154,17 @@ export class FormularioEditComponent implements OnInit {
     else
       this.datos.rcd=12096;
   }
+
+  calcularGanancias() : void{
+    if(this.tieneGanancia)
+    this.datos.valorGanancia=this.datos.valor*this.actoActual.p_ganancias/100;
+  }
+
+  calcularIti() : void{
+    if(this.tieneIti)
+    this.datos.valorIti=this.datos.valor*this.actoActual.p_iti/100;
+  }
+
   getPosActorById(id: number) : number{
     for(let i=0; i<this.listaActores.length;i++){
       if(this.listaActores[i].id==id)
@@ -161,7 +196,10 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.actualizarDatos(datos);
   }
   calcular(){
+    this.datos.matricula = this.escribaniaDatosApi[0].matricula;
     this.calcularSello(); // difiere x acto
+    this.calcularGanancias(); // 3%
+    this.calcularIti(); // 1.5%
     this.calcularHonorarios(); // difiere x acto
     this.calcularIva(); //siempre es el 21%
     this.calcularAporte(); // difiere x acto
@@ -176,6 +214,7 @@ export class FormularioEditComponent implements OnInit {
     
 
   }
+
 
   actualizarActores(){
     this.listaActores.forEach(actor => {

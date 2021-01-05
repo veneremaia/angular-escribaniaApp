@@ -16,6 +16,7 @@ export interface Actor{
     diligenciamiento: boolean;
     rcd: boolean;
     ganancias: boolean;
+    iti: boolean;
     total: number;
     
 }
