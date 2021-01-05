@@ -1,4 +1,4 @@
- import { HttpClient } from '@angular/common/http';
+ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Acto } from './Acto';
@@ -30,5 +30,19 @@ export class ActosDataService {
   public getDatosEscribania() : Observable<Escribania[]>{
     // devuelve un observable
     return this.http.get<Escribania[]>(URL_DATOS_ESCRIBANIA)
+  }
+
+  public updateActo(acto : Acto) : Observable<Acto>{
+    const httpOptions ={ 
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.put<Acto>(URL_ACTOS+"/"+acto.id,acto,httpOptions).pipe();
+  }
+
+  public updateDatosEscribania(escribania : Escribania) : Observable<Escribania>{
+    const httpOptions ={ 
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.put<Escribania>(URL_DATOS_ESCRIBANIA+"/"+escribania.id,escribania,httpOptions).pipe();
   }
 }

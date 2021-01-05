@@ -4,5 +4,7 @@ export interface Escribania{
     nombre: string;
     matricula: number;
     gestor: number;
+    p_rcd: number;
+    min_rcd: number;
     
 }

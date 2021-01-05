@@ -7,20 +7,25 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { DatosViewComponent } from './datos-view/datos-view.component';
 import { FormularioEditComponent } from './formulario-edit/formulario-edit.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ConfiguracionComponent } from './configuracion/configuracion.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormularioComponent,
     DatosViewComponent,
-    FormularioEditComponent
+    FormularioEditComponent,
+    ConfiguracionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

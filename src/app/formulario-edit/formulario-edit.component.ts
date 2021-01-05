@@ -149,10 +149,10 @@ export class FormularioEditComponent implements OnInit {
       this.datos.aportes= this.actoActual.min_aportes;
   }
   calcularRcd(): void{
-    if(this.datos.valor*1/100>12096)
-      this.datos.rcd=this.datos.valor*1/100;
+    if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
+      this.datos.rcd=this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100;
     else
-      this.datos.rcd=12096;
+      this.datos.rcd=this.escribaniaDatosApi[0].min_rcd;
   }
 
   calcularGanancias() : void{

@@ -1,0 +1,100 @@
+<h2>Configuración general</h2>
+<div *ngFor="let escribania of escribaniaDatosApi">
+<div class="row" >
+    <div class="input-group mb-3 col-4">
+        <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeNombreEscribania($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.nombre}}>
+    </div>
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Matricula</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeMatricula($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.matricula}}>
+    </div>
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Gestor</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeGestor($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.gestor}}>
+    </div>
+
+</div>
+<div class="row">
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">RCD</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeRcd($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.p_rcd}}>
+    </div>
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Min. RCD</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeMinRcd($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.min_rcd}}>
+    </div>
+
+</div>
+
+</div>
+
+<div class="row">
+    <div class="input-group mb-3 col-8">
+        <label class="input-group-text" for="acto">Acto</label>
+        <select class="form-select" id="acto" (change)="setActo($event.target!)">
+            <option selected disabled>Seleccione el acto</option>
+            <option  *ngFor="let acto of actos" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
+            
+        </select>
+      </div>
+      
+    </div>
+
+<div *ngIf="actoActual.id!=0">
+    <div class="row">
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Código</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeCodigo($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.codigo_acto}}>
+    </div>
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Sellos</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeSello($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_sellos}}>
+        <span class="input-group-text">%</span>
+    </div>
+
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Honorarios</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeHonorarios($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_honorarios}}>
+        <span class="input-group-text">%</span>
+    </div>
+
+    <div class="input-group mb-3 col-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Min. honorarios</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeMinHonorarios($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.min_honorarios}}>
+    </div>
+
+    <div class="row">
+        <div class="input-group mb-3 col-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Aportes</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeAportes($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_aportes}}>
+            <span class="input-group-text">%</span>
+        </div>
+    
+        <div class="input-group mb-3 col-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Min. aportes</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeMinAportes($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.min_aportes}}>
+        </div>
+    
+        <div class="input-group mb-3 col-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Ganancias</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeGanancias($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_ganancias}}>
+            <span class="input-group-text">%</span>
+        </div>
+
+        <div class="input-group mb-3 col-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Iti</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeIti($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_iti}}>
+            <span class="input-group-text">%</span>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+
+
+<div class="col-12">
+    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg btn-block btn-info">Actualizar datos</button>
+  </div>
