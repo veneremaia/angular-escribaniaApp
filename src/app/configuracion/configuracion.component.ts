@@ -99,7 +99,7 @@ export class ConfiguracionComponent implements OnInit {
       if(this.actoActual.id!=0)
         this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));
       this.actosDataService.updateDatosEscribania(this.escribaniaDatosApi[0]).subscribe(()=> console.log("anduvo"));
-      this.toastr.success("Se actualizaron los datos correctamente")
+      this.toastr.success("Se actualizaron los datos correctamente");
     }
 
 

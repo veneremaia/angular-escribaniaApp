@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, fromEventPattern } from 'rxjs';
 import { Actor } from './Actor';
@@ -21,7 +22,6 @@ export class ActoDatosService {
 
   constructor() { }
 
-
   actualizarDatos(datos: Datos) {
     this._actoList[0]=(datos);
     console.log(this._actoList);
@@ -34,9 +34,13 @@ export class ActoDatosService {
   }
   
   eliminarActores(){
-    this._actoresList=[];
-    this.actoresList.next(this._actoresList);  }
+    this._actoresList.splice(0,this._actoresList.length);
+    this.actoresList.next(this._actoresList);
+ }
 
-
+  eliminarDatos(){
+    this._actoList.splice(0,this._actoList.length);
+    this.actoList.next(this._actoList);
+  }
 
 }

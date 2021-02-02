@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="actor.sellos">
+          <tr *ngIf="actor.sellos &&dato.valorSello!=0">
             <th scope="row">1</th>
             <td>Sellos</td>
             <td>{{dato.valorSello/datosActores.length | number}}</td>
@@ -59,12 +59,12 @@
             <td>Folios</td>
             <td>{{dato.folios | number}}</td>
           </tr>
-          <tr *ngIf="actor.ganancias">
+          <tr *ngIf="actor.ganancias &&dato.valorGanancia!=0">
             <th scope="row">7</th>
             <td>Ganancias</td>
             <td>{{dato.valorGanancia | number}}</td>
           </tr>
-          <tr *ngIf="actor.iti">
+          <tr *ngIf="actor.iti &&dato.valorIti!=0">
             <th scope="row">7</th>
             <td>Iti</td>
             <td>{{dato.valorIti | number}}</td>

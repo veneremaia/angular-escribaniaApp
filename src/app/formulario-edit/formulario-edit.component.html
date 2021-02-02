@@ -4,7 +4,7 @@
     <label for="inputEmail4" class="form-label">Acto</label>
     <select id="acto" class="form-control" (change)="setActo($event.target!)" >
       <option selected disabled>Seleccione el acto</option>
-      <option  *ngFor="let acto of actos" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
+      <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
       
     </select>  </div>
     <div class="col-12">
@@ -19,58 +19,37 @@
     <label for="inputAddress" class="form-label">Folios</label>
     <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
   </div>
-  <div class="col-6">
-    <div class="custom-control custom-radio custom-control-inline">
-      <p>Sellos:</p>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" value="1" (click)="setSello($event)" id="conSello" name="conSello" class="custom-control-input">
-      <label class="custom-control-label" for="conSello">Si</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" value="0" (click)="setSello($event)"   id="sinSello" name="sinSello" class="custom-control-input" >
-    <label class="custom-control-label" for="sinSello">No</label>
-    </div>
-  
 
-</div>
-
-<div class="col-6">
-  <div class="custom-control custom-radio custom-control-inline">
-    <p>Ganancias:</p>
-  </div>
-  <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" value="1" (click)="setGanancias($event)" id="conGanancia" name="conGanancia" class="custom-control-input">
-    <label class="custom-control-label" for="conGanancia">Si</label>
-  </div>
-  <div class="custom-control custom-radio custom-control-inline">
-  <input type="radio" value="0" (click)="setGanancias($event)"   id="sinGanancia" name="sinGanancia" class="custom-control-input" >
-  <label class="custom-control-label" for="sinGanancia">No</label>
+  <div class="col-8">
+  <div class="form-check col-4">
+    <input class="form-check-input"  (click)="setSello()" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      Sellos
+    </label>
   </div>
 
-
-</div>
-
-<div class="col-6">
-  <div class="custom-control custom-radio custom-control-inline">
-    <p>Iti:</p>
-  </div>
-  <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" value="1" (click)="setIti($event)" id="conIti" name="conIti" class="custom-control-input">
-    <label class="custom-control-label" for="conIti">Si</label>
-  </div>
-  <div class="custom-control custom-radio custom-control-inline">
-  <input type="radio" value="0" (click)="setIti($event)"   id="sinIti" name="sinIti" class="custom-control-input" >
-  <label class="custom-control-label" for="sinIti">No</label>
+  <div class="form-check col-4">
+    <input class="form-check-input"  (click)="setGanancias()" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      Ganancias
+    </label>
   </div>
 
-
+  <div class="form-check col-4">
+    <input class="form-check-input"  (click)="setIti()" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      Iti
+    </label>
+  </div>
 </div>
 
 
+  <div class="col-8">
+    <button type="button" [disabled]="restablecer" (click)="calcular()" class="btn btn-primary btn-lg btn-block btn-info">Calcular</button>
+  </div>
 
-  <div class="col-12">
-    <button type="button" (click)="calcular()" class="btn btn-primary btn-lg btn-block btn-info">Calcular</button>
+  <div class="col-4">
+    <button type="button" onclick="location.reload()" [disabled]="!restablecer" class="btn btn-primary btn-lg btn-block btn-info">Recargar</button>
   </div>
 </form>
 

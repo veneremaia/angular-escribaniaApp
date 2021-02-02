@@ -15,7 +15,7 @@ import { Escribania } from '../Escribaniadatos';
 })
 export class FormularioEditComponent implements OnInit {
   //Lista de actos desde la API
-  actos: Acto[] = [];
+  actosApi: Acto[] = [];
   // Actores desde la API
   listaActoresApi: Actor[]=[];
   // Escribania desde la API
@@ -63,17 +63,20 @@ export class FormularioEditComponent implements OnInit {
 
   // Actores a actualizar en el service
   listaActores : Actor[]=[];
+  restablecer : boolean = false;
 
   constructor(private actoService: ActoDatosService,
     private actosDataService: ActosDataService) { 
   }
 
   ngOnInit(): void {
+    // traigo todos los actos de la api
     this.actosDataService.getAllActos()
-    .subscribe(actos =>this.actos = actos);
-    console.log("Actos" +this.actos);
+    .subscribe(actos =>this.actosApi = actos);
+    // traigo todos los actores de la api
     this.actosDataService.getAllActores()
     .subscribe(actores =>this.listaActoresApi = actores);
+    // traigo los datos de la escribania de la api
     this.actosDataService.getDatosEscribania()
     .subscribe(escribania =>this.escribaniaDatosApi = escribania);
   }
@@ -93,22 +96,16 @@ export class FormularioEditComponent implements OnInit {
   }
 
 
-  setSello(event: any) {
-
-    event.target.value==0 ? this.tieneSello=false : this.tieneSello = true;
-    console.log(this.tieneSello);
+  setSello() {
+    (this.tieneSello ==false) ? this.tieneSello=true : this.tieneSello = false;
   }
 
-  setGanancias(event: any) {
-
-    event.target.value==0 ? this.tieneGanancia=false : this.tieneGanancia = true;
-    console.log(this.tieneGanancia);
+  setGanancias() {
+    (this.tieneGanancia ==false) ? this.tieneGanancia=true : this.tieneGanancia = false;
   }
 
-  setIti(event: any) {
-
-    event.target.value==0 ? this.tieneIti=false : this.tieneIti = true;
-    console.log(this.tieneIti);
+  setIti() {
+    (this.tieneIti ==false) ? this.tieneIti=true : this.tieneIti = false;
   }
 
   calcularSello() : void {
@@ -196,6 +193,8 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.actualizarDatos(datos);
   }
   calcular(){
+    this.actoService.eliminarActores();
+    this.actoService.eliminarDatos();
     this.datos.matricula = this.escribaniaDatosApi[0].matricula;
     this.calcularSello(); // difiere x acto
     this.calcularGanancias(); // 3%
@@ -211,12 +210,16 @@ export class FormularioEditComponent implements OnInit {
       this.calculcarTotalActor(actor.id);
     });
     this.actualizarActores();
-    
+    this.restablecer = true;
 
   }
-
+  recargar(){
+    Location.prototype.reload();
+  }
 
   actualizarActores(){
+    this.actoService.eliminarActores();
+    console.log(this.actoService.actoresList + "LISTA ACTORES VACIA");
     this.listaActores.forEach(actor => {
       this.actoService.actualizarActores(actor);
     });
@@ -245,7 +248,11 @@ export class FormularioEditComponent implements OnInit {
       });
   }
 
+  reestablecer(){
+    
+  }
+
   getActoById(id : any) : any{
-   return this.actos.find(a => a.id==id);
+   return this.actosApi.find(a => a.id==id);
   }
 } 

@@ -10,14 +10,12 @@ import { Datos } from '../formulario-edit/Datos';
   styleUrls: ['./datos-view.component.scss']
 })
 export class DatosViewComponent implements OnInit {
- 
   datosFinales: Datos[]=[];
   datosActores: Actor[]=[];
 
-  constructor(private datos: ActoDatosService,private actosDataService: ActosDataService) {
+  constructor(private datos: ActoDatosService) {
       this.datos.actoList.subscribe(d => this.datosFinales= d);
       this.datos.actoresList.subscribe(d => this.datosActores= d);
-
 
       }
 
@@ -27,6 +25,11 @@ export class DatosViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  restablecer(){
+    
+    
+  }
+  
 }
 
 
