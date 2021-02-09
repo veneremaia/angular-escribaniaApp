@@ -18,4 +18,5 @@ export interface Datos{
     folios: number;
     valorGanancia: number;
     valorIti: number;
+    total: number;
 }

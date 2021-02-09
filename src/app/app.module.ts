@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ConfiguracionActosComponent } from './configuracion-actos/configuracion-actos.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ToastrModule } from 'ngx-toastr';
     FormularioComponent,
     DatosViewComponent,
     FormularioEditComponent,
-    ConfiguracionComponent
+    ConfiguracionComponent,
+    ConfiguracionActosComponent
   ],
   imports: [
     BrowserModule,

@@ -39,7 +39,8 @@ export class FormularioEditComponent implements OnInit {
     matricula: 0,
     folios: 0,
     valorGanancia: 0,
-    valorIti: 0
+    valorIti: 0, 
+    total: 0
   };
   
   // Acto seleccionado
@@ -205,13 +206,22 @@ export class FormularioEditComponent implements OnInit {
     this.calcularRcd(); // lo configura la escribania
     this.calcularInscripcion(); // 
     this.calcularDiligenciamiento(); // lo configura la escribania esta en tabla
-    this.actualizarDatos(this.datos);
     this.listaActores.forEach(actor => {
       this.calculcarTotalActor(actor.id);
     });
+    this.calcularTotal();
+    this.actualizarDatos(this.datos);
+
     this.actualizarActores();
     this.restablecer = true;
 
+  }
+
+  calcularTotal (){
+    this.listaActores.forEach(actor =>{
+      this.datos.total += actor.total;
+    })
+    console.log("Total totales: "+this.datos.total);
   }
   recargar(){
     Location.prototype.reload();
