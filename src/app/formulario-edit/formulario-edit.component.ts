@@ -14,6 +14,9 @@ import { Escribania } from '../Escribaniadatos';
   styleUrls: ['./formulario-edit.component.scss']
 })
 export class FormularioEditComponent implements OnInit {
+
+  today : Date = new Date();
+  fechaActual : String = "";
   //Lista de actos desde la API
   actosApi: Acto[] = [];
   // Actores desde la API
@@ -68,6 +71,10 @@ export class FormularioEditComponent implements OnInit {
 
   constructor(private actoService: ActoDatosService,
     private actosDataService: ActosDataService) { 
+      var dd = String(this.today.getDate()).padStart(2, '0');
+      var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = this.today.getFullYear();
+      this.fechaActual = dd + '/' + mm + '/' + yyyy;
   }
 
   ngOnInit(): void {

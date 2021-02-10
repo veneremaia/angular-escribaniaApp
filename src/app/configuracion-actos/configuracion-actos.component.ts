@@ -12,7 +12,8 @@ export class ConfiguracionActosComponent implements OnInit {
 
   //Lista de actos desde la API
   actos: Acto[] = [];
-
+  editar : boolean = false;
+  crear : boolean = false;
   actoActual: Acto = {
     "id": 0,
     "codigo_acto": "",
@@ -25,7 +26,18 @@ export class ConfiguracionActosComponent implements OnInit {
     "p_ganancias": 0,
     "p_iti": 0
   };
-
+  actoNuevo: Acto = {
+    "id": 0,
+    "codigo_acto": "",
+    "nombre_acto": "",
+    "p_sellos": 0,
+    "p_honorarios": 0,
+    "min_honorarios": 0,
+    "p_aportes": 0,
+    "min_aportes": 0,
+    "p_ganancias": 0,
+    "p_iti": 0
+  };
   constructor(private actosDataService: ActosDataService, private toastr : ToastrService) { }
 
   ngOnInit(): void {
@@ -70,10 +82,27 @@ export class ConfiguracionActosComponent implements OnInit {
       this.actoActual.p_iti=Number(event.target.value);
     }
 
-    actualizarDatos(): void{
-      if(this.actoActual.id!=0)
-        this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));
-      this.toastr.success("El acto se actualizó correctamente");
+    changeNombre(event: any) : void{
+      this.actoActual.nombre_acto=event.target.value.toUpperCase();
     }
 
+    actualizarDatos(): void{
+      if(this.actoActual.id!=0){
+        this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));
+        this.toastr.success("El acto se actualizó correctamente");
+        this.editar = false;
+      }
+      else if(this.crear){
+        this.actosDataService.createActo(this.actoActual).subscribe(()=> console.log("anduvo"));
+        this.toastr.success("El acto se creó correctamente");
+        this.crear = false;
+      }
+    }
+
+    setEditar(){
+      this.editar = true;
+    }
+    setCrear(){
+      this.crear = true;
+    }
 }

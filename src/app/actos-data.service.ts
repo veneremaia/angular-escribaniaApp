@@ -39,6 +39,14 @@ export class ActosDataService {
     return this.http.put<Acto>(URL_ACTOS+"/"+acto.id,acto,httpOptions).pipe();
   }
 
+
+  public createActo(acto : Acto) : Observable<Acto>{
+    const httpOptions ={ 
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post<Acto>(URL_ACTOS+"/",httpOptions).pipe();
+  }
+  
   public updateDatosEscribania(escribania : Escribania) : Observable<Escribania>{
     const httpOptions ={ 
       headers: new HttpHeaders({'Content-Type': 'application/json'})

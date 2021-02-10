@@ -72,6 +72,7 @@
 
 </div>
 <div class="row d-flex justify-content-center">
-<button id="totalfinal"  *ngIf="datosFinales[0].total!=0" type="button" disabled class="btn btn-success col-11 d-flex justify-content-center">TOTAL : {{datosFinales[0].total | number}}</button>
+  <span  id="totalfinal"  *ngIf="datosFinales[0].total!=0"class="badge badge-success col-11 d-flex justify-content-center align-items-center">TOTAL : {{datosFinales[0].total | number}}</span>
+
 </div>
 </div>
