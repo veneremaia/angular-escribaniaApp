@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfiguracionActorComponent } from './configuracion-actor/configuracion-actor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MatIconModule } from '@angular/material/icon';
     DatosViewComponent,
     FormularioEditComponent,
     ConfiguracionComponent,
-    ConfiguracionActosComponent
+    ConfiguracionActosComponent,
+    ConfiguracionActorComponent
     ],
   imports: [
     BrowserModule,

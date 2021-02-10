@@ -21,8 +21,8 @@
 <div *ngIf="this.editar">
 
     <div class="row d-flex justify-content-start">
-        <div class="input-group mb-3 col-8">
-            <label class="input-group-text" for="acto">Acto</label>
+        <div class="input-group pl-0 mb-3 col-8">
+            <label class="input-group-text d-flex justify-content-start" for="acto">Acto</label>
             <select class="form-select" id="acto" (change)="setActo($event.target!)">
                 <option selected disabled>Seleccione el acto</option>
                 <option  *ngFor="let acto of actos" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
@@ -82,10 +82,39 @@
 
         </div>
 
+     
+    </div>
+    <div class="row d-flex justify-content-start " *ngIf="this.actoActual.id!=0">
+        <h6 class="col-12">Lista de actores del acto {{this.actoActual.nombre_acto}}</h6>
 
+    <div class="col-8 d-flex justify-content-start" >
+
+        <table class="table">
+            <tbody>
+              <tr *ngFor="let actor of actores">
+                <td *ngIf="actor.id_acto==actoActual.id">{{actor.nombre_actor}}</td>
+                <td *ngIf="actor.id_acto==actoActual.id">        
+                    <button type="button" id={{actor.id}} class="btn btn-outline-success"[routerLink]="['/actor', actor.id]">Editar</button>
+                </td>
+              </tr>
+           
+            </tbody>
+          </table>    
     </div>
 
+    
 </div>
+
+
+
+
+
+
+
+
+</div>
+
+
     
 <div *ngIf="crear">
     <div class="row d-flex justify-content-start pb-3 ">
@@ -152,8 +181,10 @@
     </div>
 
 
-<div class="col-4" *ngIf="actoActual.id!=0||crear">
-    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg btn-block btn-info">Actualizar datos</button>
+<div class="col-4 mt-4 d-flex justify-content-start" *ngIf="actoActual.id!=0||crear">
+    <button type="button" id="volver" class="mr-3 btn btn-outline-primary volver btn-lg" (click)="volver()">Volver</button>
+
+    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg ">Actualizar datos</button>
   </div>
 
 

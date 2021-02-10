@@ -1,0 +1,119 @@
+<h3>Configuración de actor</h3>
+
+<div class="row mt-4 d-flex justify-content-start">
+    <div class="input-group mb-3 col-6">
+        <span class="input-group-text" id="inputGroup-sizing-default">Nombre actor</span>
+        <input (keyup)="setNombre($event)" type="text" class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actorActual.nombre_actor}}>
+    </div>
+
+    <div class="input-group pl-0 mb-3 col-6">
+        <label class="input-group-text d-flex justify-content-start" for="acto">Acto</label>
+        <select class="form-select" id="acto" (change)="setActo($event.target!)">
+            <option selected disabled>Seleccione el acto</option>
+            <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}} [selected]="actorActual.id_acto==acto.id">{{acto.nombre_acto}}</option>
+        
+        </select>
+    </div>
+        
+</div>
+<div class="row mt-3 d-flex justify-content-start">
+
+    <p class="pl-4 col-12">Seleccione los conceptos que el actor debe cubrir: </p>
+    <div class="form-check pl-5 col-2">
+        <input class="form-check-input"  (click)="setSello()"  type="checkbox" [checked]="actorActual.sellos" id="sellos">
+        <label class="form-check-label" for="sellos">
+            Sellos
+        </label>
+      </div>
+      <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setAportes()"  type="checkbox" [checked]="actorActual.aporte" id="aporte">
+        <label class="form-check-label" for="aporte">
+            Aportes 
+        </label>
+      </div>
+      <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setHonorarios()"  type="checkbox" [checked]="actorActual.honorarios" id="honorarios">
+        <label class="form-check-label" for="honorarios">
+            Honorarios 
+        </label>
+    </div>
+
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setIva()"  type="checkbox" [checked]="actorActual.iva" id="iva">
+        <label class="form-check-label" for="iva">
+            IVA 
+        </label>
+    </div>
+    
+</div>
+<div class="row mt-3 d-flex justify-content-start">
+    
+    <div class="form-check pl-5 col-2">
+        <input class="form-check-input"  (click)="setInscripcion()"  type="checkbox" [checked]="actorActual.inscripcion" id="inscripcion">
+        <label class="form-check-label" for="inscripcion">
+            Inscripción 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setMatricula()"  type="checkbox" [checked]="actorActual.matricula" id="matricula">
+        <label class="form-check-label" for="matricula">
+            Matricula 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setFolios()"  type="checkbox" [checked]="actorActual.folios" id="folios">
+        <label class="form-check-label" for="folios">
+            Folios 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setCertificados()"  type="checkbox" [checked]="actorActual.certificados" id="certificados">
+        <label class="form-check-label" for="certificados">
+         Certificados 
+        </label>
+    </div>
+</div>
+
+<div class="row mt-3 d-flex justify-content-start">
+    <div class="form-check pl-5 col-2">
+        <input class="form-check-input"  (click)="setMunicipal()"  type="checkbox" [checked]="actorActual.municipal" id="municipal">
+        <label class="form-check-label" for="municipal">
+         Municipal 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setDiligenciamiento()"  type="checkbox" [checked]="actorActual.diligenciamiento" id="diligenciamiento">
+        <label class="form-check-label" for="diligenciamiento">
+        Diligenciamiento 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setRcd()"  type="checkbox" [checked]="actorActual.rcd" id="rcd">
+        <label class="form-check-label" for="rcd">
+        RCD 
+        </label>
+    </div>
+    <div class="form-check col-2">
+        <input class="form-check-input"  (click)="setGanancias()"  type="checkbox" [checked]="actorActual.ganancias" id="ganancias">
+        <label class="form-check-label" for="ganancias">
+        Ganancias 
+        </label>
+    </div>
+    
+</div>
+<div class="row mt-3 d-flex justify-content-start">
+
+    <div class="form-check pl-5 col-2">
+        <input class="form-check-input"  (click)="setIti()"  type="checkbox" [checked]="actorActual.iti" id="iti">
+        <label class="form-check-label" for="iti">
+        ITI 
+        </label>
+    </div>
+
+</div>
+
+<div class="col-4 mt-4 d-flex justify-content-start" >
+    <button type="button" id="volver" class="btn btn-outline-primary volver btn-lg mr-3" [routerLink]="['/configuracionActos']">Volver</button>
+
+    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg " [routerLink]="['/configuracionActos']">Confirmar</button>
+  </div>

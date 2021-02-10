@@ -22,6 +22,17 @@ export class ActosDataService {
     return this.http.get<Acto[]>(URL_ACTOS)
   }
 
+  public getActoById(id : Number) : Observable<Acto>{
+    // devuelve un observable
+    return this.http.get<Acto>(URL_ACTOS+"/"+id);
+  }
+
+  
+  public getActorById(id : Number) : Observable<Actor>{
+    // devuelve un observable
+    console.log("API, ID LLEGADO ACTOR: "+ id);
+    return this.http.get<Actor>(URL_ACTORES+"/"+id);
+  }
   public getAllActores() : Observable<Actor[]>{
     // devuelve un observable
     return this.http.get<Actor[]>(URL_ACTORES)
@@ -39,6 +50,12 @@ export class ActosDataService {
     return this.http.put<Acto>(URL_ACTOS+"/"+acto.id,acto,httpOptions).pipe();
   }
 
+  public updateActor(actor : Actor) : Observable<Actor>{
+    const httpOptions ={ 
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.put<Actor>(URL_ACTORES+"/"+actor.id,actor,httpOptions).pipe();
+  }
 
   public createActo(acto : Acto) : Observable<Acto>{
     const httpOptions ={ 
