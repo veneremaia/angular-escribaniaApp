@@ -49,15 +49,31 @@ export class ConfiguracionActorComponent implements OnInit {
   constructor(private actosDataService: ActosDataService, private toastr : ToastrService) { }
 
   ngOnInit(): void {
-    this.actosDataService.getActorById(Number(window.location.href.split("/")[window.location.href.split("/").length-1])).subscribe(actor=>this.actorActual=actor);
+    let url = window.location.href.split("/");
+    if(url[url.length-2]!="nuevoActor"){
+    
+    this.actosDataService.getActorById(Number(url[url.length-1])).subscribe(actor=>this.actorActual=actor);
     this.actosDataService.getAllActos().subscribe(actos=>this.actosApi=actos);
+    }
+    else
+    this.actosDataService.getActoById(Number(url[url.length-1])).subscribe(acto =>{
+      this.actoActual = acto;
+      this.actorActual.id_acto = this.actoActual.id;
+      console.log("Este el el: "+ this.actorActual.id_acto);
+    })
   }
 
 
   actualizarDatos(){
+    if(this.actorActual.id!=0){
     this.actosDataService.updateActor(this.actorActual).subscribe(()=> console.log("anduvo"));;
     this.toastr.success("El actor se actualizó correctamente");
-
+    }
+    else{
+      this.actosDataService.createActor(this.actorActual).subscribe(()=> console.log("anduvo"));;
+      this.toastr.success("El actor se creó correctamente");
+    }
+    
   }
 
   setNombre(event : any){

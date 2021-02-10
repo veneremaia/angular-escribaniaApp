@@ -6,7 +6,13 @@
         <input (keyup)="setNombre($event)" type="text" class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actorActual.nombre_actor}}>
     </div>
 
-    <div class="input-group pl-0 mb-3 col-6">
+
+    <div class="input-group mb-3 pl-0 col-6" *ngIf="actoActual.id!=0">
+        <span class="input-group-text" id="inputGroup-sizing-default">Acto</span>
+        <input disabled type="text" class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actoActual.nombre_acto}}>
+    </div>
+
+    <div class="input-group pl-0 mb-3 col-6" *ngIf="actoActual.id==0">
         <label class="input-group-text d-flex justify-content-start" for="acto">Acto</label>
         <select class="form-select" id="acto" (change)="setActo($event.target!)">
             <option selected disabled>Seleccione el acto</option>

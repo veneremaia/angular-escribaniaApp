@@ -20,7 +20,7 @@
 
 <div *ngIf="this.editar">
 
-    <div class="row d-flex justify-content-start">
+    <div class="row d-flex justify-content-between">
         <div class="input-group pl-0 mb-3 col-8">
             <label class="input-group-text d-flex justify-content-start" for="acto">Acto</label>
             <select class="form-select" id="acto" (change)="setActo($event.target!)">
@@ -29,7 +29,16 @@
             
             </select>
         </div>
-  
+
+            <div *ngIf="actoActual.id!=0">
+            <button type="button" class="btn btn-outline-danger "> <span class="material-icons">
+                delete
+                </span></button>
+            </div>
+           
+        </div>
+        <div class="row d-flex justify-content-start">
+
 
         <div *ngIf="actoActual.id!=0">
             <div class="row d-flex justify-content-start">
@@ -86,8 +95,14 @@
     </div>
     <div class="row d-flex justify-content-start " *ngIf="this.actoActual.id!=0">
         <h6 class="col-12">Lista de actores del acto {{this.actoActual.nombre_acto}}</h6>
-
-    <div class="col-8 d-flex justify-content-start" >
+        <div class="col-7 m-3">
+        <button type="button" class="btn btn-outline-success d-flex align-items-center"[routerLink]="['/nuevoActor',actoActual.id]">
+            <span class="material-icons pr-2">
+                add_box
+                </span>
+            Crear actor</button>
+    </div>
+    <div class="col-6 d-flex justify-content-start" >
 
         <table class="table">
             <tbody>
@@ -95,7 +110,11 @@
                 <td *ngIf="actor.id_acto==actoActual.id">{{actor.nombre_actor}}</td>
                 <td *ngIf="actor.id_acto==actoActual.id">        
                     <button type="button" id={{actor.id}} class="btn btn-outline-success"[routerLink]="['/actor', actor.id]">Editar</button>
+                    <button type="button" id={{actor.id}}  class="btn btn-outline-danger ml-4"> <span class="material-icons">
+                        delete
+                        </span></button>  
                 </td>
+              
               </tr>
            
             </tbody>
@@ -181,10 +200,10 @@
     </div>
 
 
-<div class="col-4 mt-4 d-flex justify-content-start" *ngIf="actoActual.id!=0||crear">
+<div class="col-4 mt-4 d-flex justify-content-start" *ngIf="editar||crear" >
     <button type="button" id="volver" class="mr-3 btn btn-outline-primary volver btn-lg" (click)="volver()">Volver</button>
 
-    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg ">Actualizar datos</button>
+    <button *ngIf="actoActual.id!=0||crear" type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg ">Actualizar datos</button>
   </div>
 
 

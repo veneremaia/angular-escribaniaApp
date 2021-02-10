@@ -23,8 +23,9 @@ const routes: Routes = [
     component: ConfiguracionActosComponent
   },
   { path: 'actor/:actorId',
-   component: ConfiguracionActorComponent }
-
+   component: ConfiguracionActorComponent },
+   { path: 'nuevoActor/:actoId',
+    component: ConfiguracionActorComponent }
 ];
 
 @NgModule({

@@ -61,9 +61,16 @@ export class ActosDataService {
     const httpOptions ={ 
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.http.post<Acto>(URL_ACTOS+"/",httpOptions).pipe();
+    return this.http.post<Acto>(URL_ACTOS+"/",acto,httpOptions).pipe();
   }
   
+  public createActor(actor : Actor) : Observable<Actor>{
+    const httpOptions ={ 
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post<Actor>(URL_ACTORES+"/",actor,httpOptions).pipe();
+  }
+
   public updateDatosEscribania(escribania : Escribania) : Observable<Escribania>{
     const httpOptions ={ 
       headers: new HttpHeaders({'Content-Type': 'application/json'})
