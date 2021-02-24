@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfiguracionActorComponent } from './configuracion-actor/configuracion-actor.component';
+import { NuevocomponentComponent } from './nuevocomponent/nuevocomponent.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConfiguracionActorComponent } from './configuracion-actor/configuracion
     FormularioEditComponent,
     ConfiguracionComponent,
     ConfiguracionActosComponent,
-    ConfiguracionActorComponent
+    ConfiguracionActorComponent,
+    NuevocomponentComponent
     ],
   imports: [
     BrowserModule,

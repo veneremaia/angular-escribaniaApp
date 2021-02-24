@@ -95,6 +95,10 @@ export class ConfiguracionComponent implements OnInit {
     changeMinRcd(event: any) : void{
       this.escribaniaDatosApi[0].min_rcd=Number(event.target.value);
     }
+    
+    changeMunicipal(event: any) : void{
+      this.escribaniaDatosApi[0].imp_municipal=Number(event.target.value);
+    }
     actualizarDatos(): void{
       if(this.actoActual.id!=0)
         this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));

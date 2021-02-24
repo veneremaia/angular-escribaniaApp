@@ -35,7 +35,7 @@ export class FormularioEditComponent implements OnInit {
     aportes: 0,
     iva: 0,
     certificado: 0,
-    municipal: 1000,
+    municipal: 0,
     diligenciamiento: 0,
     rcd: 0,
     inscripcion: 0,
@@ -143,7 +143,9 @@ export class FormularioEditComponent implements OnInit {
       this.datos.diligenciamiento=(excedente/1000)*2+4175;
     }
   }
-
+  calcularMunicipal(): void {
+    this.datos.municipal = this.escribaniaDatosApi[0].imp_municipal;
+  }
   calcularInscripcion(): void {
     this.datos.inscripcion = this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
   }
@@ -212,6 +214,7 @@ export class FormularioEditComponent implements OnInit {
     this.calcularAporte(); // difiere x acto
     this.calcularRcd(); // lo configura la escribania
     this.calcularInscripcion(); // 
+    this.calcularMunicipal(); // lo configura la escribania
     this.calcularDiligenciamiento(); // lo configura la escribania esta en tabla
     this.listaActores.forEach(actor => {
       this.calculcarTotalActor(actor.id);
