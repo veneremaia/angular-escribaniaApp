@@ -92,7 +92,10 @@ export class FormularioEditComponent implements OnInit {
   setValor(event: any) {
     this.datos.valor= event.target.value;
   }
-
+// ACAAAAA
+  setNombreCliente(event: any) {
+    this.datos.nombreCliente= event.target.value;
+  }
   setCertificados(event: any) {
     this.datos.certificado= event.target.value*1000;
     console.log("Certificados: " + this.datos.certificado);
@@ -195,6 +198,9 @@ export class FormularioEditComponent implements OnInit {
     if(this.listaActores[id].inscripcion) total+=this.datos.inscripcion;
     if(this.listaActores[id].matricula) total+=this.datos.matricula;
     if(this.listaActores[id].folios) total+=this.datos.folios;
+    if(this.listaActores[id].iti) total+=this.datos.valorIti;
+    if(this.listaActores[id].ganancias) total+=this.datos.valorGanancia;
+
     this.listaActores[id].total=total;
 
   }

@@ -5,6 +5,10 @@
 
 </div>
 <form class="row g-3">
+  <div class="col-12">
+      <label for="inputAddress" class="form-label">Nombre cliente</label>
+      <input type="text" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" (keyup)="setNombreCliente($event)">
+  </div>
   <div class="col-md-12">
     <label for="inputEmail4" class="form-label">Acto</label>
     <select id="acto" class="form-control" (change)="setActo($event.target!)" >
@@ -27,22 +31,22 @@
 
   <div class="col-8">
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setSello()" type="checkbox" value="" id="flexCheckDefault">
-    <label class="form-check-label" for="flexCheckDefault">
+    <input class="form-check-input"  (click)="setSello()" type="checkbox" value="" id="flexCheckDefault1">
+    <label class="form-check-label" for="flexCheckDefault1">
       Sellos
     </label>
   </div>
 
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setGanancias()" type="checkbox" value="" id="flexCheckDefault">
-    <label class="form-check-label" for="flexCheckDefault">
+    <input class="form-check-input"  (click)="setGanancias()" type="checkbox" value="" id="flexCheckDefault2">
+    <label class="form-check-label" for="flexCheckDefault2">
       Ganancias
     </label>
   </div>
 
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setIti()" type="checkbox" value="" id="flexCheckDefault">
-    <label class="form-check-label" for="flexCheckDefault">
+    <input class="form-check-input"  (click)="setIti()" type="checkbox" value="" id="flexCheckDefault3">
+    <label class="form-check-label" for="flexCheckDefault3">
       Iti
     </label>
   </div>
