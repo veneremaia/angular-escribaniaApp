@@ -99,6 +99,13 @@ export class ConfiguracionComponent implements OnInit {
     changeMunicipal(event: any) : void{
       this.escribaniaDatosApi[0].imp_municipal=Number(event.target.value);
     }
+    
+    changeFolios(event: any) : void{
+      this.escribaniaDatosApi[0].folio=Number(event.target.value);
+    }
+    changeCertificados(event: any) : void{
+      this.escribaniaDatosApi[0].certificado=Number(event.target.value);
+    }
     actualizarDatos(): void{
       if(this.actoActual.id!=0)
         this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));

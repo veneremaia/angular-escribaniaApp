@@ -97,12 +97,12 @@ export class FormularioEditComponent implements OnInit {
     this.datos.nombreCliente= event.target.value;
   }
   setCertificados(event: any) {
-    this.datos.certificado= event.target.value*1000;
+    this.datos.certificado= event.target.value*this.escribaniaDatosApi[0].certificado;
     console.log("Certificados: " + this.datos.certificado);
   }
 
   setFolios(event: any) {
-    this.datos.folios= (event.target.value*2+2)*650;
+    this.datos.folios= (event.target.value*2+2)*this.escribaniaDatosApi[0].folio;
     console.log("Folios: "+this.datos.folios);
   }
 

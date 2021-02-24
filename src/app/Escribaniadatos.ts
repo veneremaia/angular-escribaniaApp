@@ -7,5 +7,7 @@ export interface Escribania{
     p_rcd: number;
     min_rcd: number;
     imp_municipal: number;
+    folio: number;
+    certificado: number;
     
 }
