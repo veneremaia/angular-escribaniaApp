@@ -157,6 +157,9 @@ export class FormularioEditComponent implements OnInit {
       this.datos.aportes=this.datos.valor*this.actoActual.p_aportes;
     else
       this.datos.aportes= this.actoActual.min_aportes;
+
+    console.log(this.actoActual.min_aportes + " : MIN APORTES");
+    console.log(this.datos.valor*this.actoActual.p_aportes);
   }
   calcularRcd(): void{
     if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
@@ -253,6 +256,7 @@ export class FormularioEditComponent implements OnInit {
 
 
   setActo(event: any){  
+    this.listaActores = [];
     console.log("SetActo metodo init")
     this.actoActual = this.getActoById(event.value);
     console.log(event.value);
