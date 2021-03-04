@@ -1,3 +1,7 @@
+<button *ngIf="isPrinted"  class="btn"><span  (click)="goToForm()" class="mb-3 material-icons md-36 d-flex justify-content-start">
+  keyboard_backspace
+  </span></button>
+
 <h1>{{escribaniaDatosApi[0].nombre}}.-</h1>
 <div class="row d-flex justify-content-between">
 <h4 class="col-6">Presupuesto.</h4>
@@ -22,10 +26,13 @@
   <div class="col-md-6">
     <label for="inputPassword4" class="form-label">Certificados</label>
     <input type="number" placeholder="Cantidad de certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
+    <p *ngIf="!isPrinted" class="exclusion-text ml-2">Sin incluir municipal</p>
   </div>
   <div class="col-6">
     <label for="inputAddress" class="form-label">Folios</label>
     <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
+    <p *ngIf="!isPrinted" class="exclusion-text ml-2">Sin incluir duplicados</p>
+
   </div>
 
   <div class="col-8">
@@ -52,18 +59,7 @@
 </div>
 
 
-  <div class="col-8">
-    <button type="button" [disabled]="restablecer" (click)="calcular()" class="btn btn-primary btn-lg btn-block btn-info">Calcular</button>
-  </div>
-
-  <div class="col-4">
-    <button type="button" onclick="location.reload()" [disabled]="!restablecer" class="btn btn-primary btn-lg btn-block btn-info">Recargar</button>
+  <div *ngIf="!isPrinted" class="col-12 mt-3">
+    <button type="button" (click)="calcular()" class="col-4 btn btn-primary btn-lg btn-block btn-info">Calcular</button>
   </div>
 </form>
-
-<!--<div class="col-4">
-<button type="button" class="btn btn-outline-primary">Imprimir <span class="material-icons">
-  local_printshop
-  </span>
-</button>  
-</div>-->

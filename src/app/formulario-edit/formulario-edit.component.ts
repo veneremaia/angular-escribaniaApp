@@ -68,6 +68,10 @@ export class FormularioEditComponent implements OnInit {
   // Actores a actualizar en el service
   listaActores : Actor[]=[];
   restablecer : boolean = false;
+  // isShowed a actualizar en el service
+  isShowed : boolean = false;
+  // isPrinted a actualizar en el service
+  isPrinted : boolean = false;
 
   constructor(private actoService: ActoDatosService,
     private actosDataService: ActosDataService) { 
@@ -87,8 +91,16 @@ export class FormularioEditComponent implements OnInit {
     // traigo los datos de la escribania de la api
     this.actosDataService.getDatosEscribania()
     .subscribe(escribania =>this.escribaniaDatosApi = escribania);
+    // traigo el dato de si se esta mostrando o consultando
+    this.actoService.isShowed.subscribe(b =>this.isShowed=b);
+    // traigo el dato de si se esta en modo imprimir
+    this.actoService.isPrinted.subscribe(b =>this.isPrinted=b);
   }
 
+  goToForm() : void{
+    this.isPrinted = false;
+    this.actoService.actualizarIsPrinted(this.isPrinted);
+  }
   setValor(event: any) {
     this.datos.valor= event.target.value;
   }
@@ -108,15 +120,15 @@ export class FormularioEditComponent implements OnInit {
 
 
   setSello() {
-    (this.tieneSello ==false) ? this.tieneSello=true : this.tieneSello = false;
+    (this.tieneSello) ? this.tieneSello=false : this.tieneSello = true;
   }
 
   setGanancias() {
-    (this.tieneGanancia ==false) ? this.tieneGanancia=true : this.tieneGanancia = false;
+    (this.tieneGanancia) ? this.tieneGanancia=false : this.tieneGanancia = true;
   }
 
   setIti() {
-    (this.tieneIti ==false) ? this.tieneIti=true : this.tieneIti = false;
+    (this.tieneIti) ? this.tieneIti=false : this.tieneIti = true;
   }
 
   calcularSello() : void {
@@ -212,6 +224,9 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.actualizarDatos(datos);
   }
   calcular(){
+    this.isShowed = false;
+    this.datos.total = 0;
+    this.actoService.actualizarIsShowed(this.isShowed)
     this.actoService.eliminarActores();
     this.actoService.eliminarDatos();
     this.datos.matricula = this.escribaniaDatosApi[0].matricula;
@@ -232,7 +247,8 @@ export class FormularioEditComponent implements OnInit {
     this.actualizarDatos(this.datos);
 
     this.actualizarActores();
-    this.restablecer = true;
+    this.isShowed = true;
+    this.actoService.actualizarIsShowed(this.isShowed)
 
   }
 
@@ -241,9 +257,6 @@ export class FormularioEditComponent implements OnInit {
       this.datos.total += actor.total;
     })
     console.log("Total totales: "+this.datos.total);
-  }
-  recargar(){
-    Location.prototype.reload();
   }
 
   actualizarActores(){

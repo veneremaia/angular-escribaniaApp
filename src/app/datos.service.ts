@@ -11,7 +11,8 @@ import { Datos } from './formulario-edit/Datos';
 
 
 export class ActoDatosService {
-
+  private _isShowed : boolean = false;
+  private _isPrinted : boolean = false;
   private _actoList : Datos[] = [];
   private _actoresList : Actor[] = [];
 
@@ -19,9 +20,19 @@ export class ActoDatosService {
   actoList : BehaviorSubject<Datos[]> = new BehaviorSubject<Datos[]>([]);
 
   actoresList : BehaviorSubject<Actor[]> = new BehaviorSubject<Actor[]>([]);
+  isShowed : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isPrinted : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
+  actualizarIsShowed(isShowed : boolean){
+    this._isShowed = isShowed;
+    this.isShowed.next(this._isShowed);
+  }
+  actualizarIsPrinted(isPrinted : boolean){
+    this._isPrinted = isPrinted;
+    this.isPrinted.next(this._isPrinted);
+  }
   actualizarDatos(datos: Datos) {
     this._actoList[0]=(datos);
     console.log(this._actoList);
