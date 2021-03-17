@@ -4,6 +4,9 @@ import { ConfiguracionActosComponent } from './configuracion-actos/configuracion
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { ConfiguracionActorComponent} from './configuracion-actor/configuracion-actor.component';
+import { EditActoComponent } from './edit-acto/edit-acto.component';
+import { CreateActoComponent } from './create-acto/create-acto.component';
+import { EscalaPorcentualComponent } from './escala-porcentual/escala-porcentual.component';
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +24,15 @@ const routes: Routes = [
   {
     path:'configuracionActos',
     component: ConfiguracionActosComponent
+  }, {
+    path:'editarActos',
+    component: EditActoComponent
+  }, {
+    path:'crearActo',
+    component: CreateActoComponent
+  },{
+    path:'editarEscalaPorcentual',
+    component: EscalaPorcentualComponent
   },
   { path: 'actor/:actorId',
    component: ConfiguracionActorComponent },

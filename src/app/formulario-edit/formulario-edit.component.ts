@@ -4,8 +4,8 @@ import { ActoDatosService } from '../datos.service';
 import { ActosDataService } from '../actos-data.service';
 import { Datos } from './Datos';
 import { Actor } from '../Actor';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Escribania } from '../Escribaniadatos';
+import { Escala } from '../Escala';
 
 
 @Component({
@@ -23,6 +23,8 @@ export class FormularioEditComponent implements OnInit {
   listaActoresApi: Actor[]=[];
   // Escribania desde la API
   escribaniaDatosApi: Escribania[]=[];
+  // Datos escala porcentual API
+  escalaPorcentualApi : Escala[]=[];
 
   // Dato final que mostraremos en resultados
   datos : Datos  = {
@@ -63,6 +65,8 @@ export class FormularioEditComponent implements OnInit {
   tieneSello : boolean = false;
   tieneGanancia : boolean = false;
   tieneIti: boolean = false;
+  cantFolios : number = 0;
+  cantCertificados : number = 0;
   
 
   // Actores a actualizar en el service
@@ -85,6 +89,9 @@ export class FormularioEditComponent implements OnInit {
     // traigo todos los actos de la api
     this.actosDataService.getAllActos()
     .subscribe(actos =>this.actosApi = actos);
+    // traigo la escala porcentual de la api
+    this.actosDataService.getAllEscalas()
+    .subscribe(escala =>this.escalaPorcentualApi = escala);
     // traigo todos los actores de la api
     this.actosDataService.getAllActores()
     .subscribe(actores =>this.listaActoresApi = actores);
@@ -109,11 +116,13 @@ export class FormularioEditComponent implements OnInit {
     this.datos.nombreCliente= event.target.value;
   }
   setCertificados(event: any) {
+    this.cantCertificados = event.target.value;
     this.datos.certificado= event.target.value*this.escribaniaDatosApi[0].certificado;
     console.log("Certificados: " + this.datos.certificado);
   }
 
   setFolios(event: any) {
+    this.cantFolios = event.target.value;
     this.datos.folios= (event.target.value*2+2)*this.escribaniaDatosApi[0].folio;
     console.log("Folios: "+this.datos.folios);
   }
@@ -164,7 +173,33 @@ export class FormularioEditComponent implements OnInit {
   calcularInscripcion(): void {
     this.datos.inscripcion = this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
   }
+
+calcularAporte(){
+  // Busca en toda la escala la fila quede entre max y min del honorario
+
+  let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
+  let escala = this.escalaPorcentualApi[indiceEscala];
+  this.datos.aportes = this.escalaPorcentualApi[indiceEscala].aporte_fijo;
+  if(escala.aporte_fijo==0)
+    this.datos.aportes = this.datos.honorarios*escala.porcentaje_excedente/100;
+  if((this.datos.honorarios > escala.min)&&(escala.min>0)){
+    let excedente = this.datos.honorarios - escala.min;
+    this.datos.aportes += (excedente*escala.porcentaje_excedente/100); 
+      
+    
+  }
+}
+
+getEscalaPorcentual(valorHonorario : number) : number{
+  for(let i=0; i<this.escalaPorcentualApi.length; i++){
+    if((valorHonorario<=this.escalaPorcentualApi[i].max)&&(valorHonorario>this.escalaPorcentualApi[i].min))
+      return i;
+  }
+  return 0;
+} 
+/*
   calcularAporte(){
+    console.log(this.datos.valor*this.actoActual.p_aportes); 
     if(this.datos.valor*this.actoActual.p_aportes>this.actoActual.min_aportes)
       this.datos.aportes=this.datos.valor*this.actoActual.p_aportes;
     else
@@ -172,7 +207,7 @@ export class FormularioEditComponent implements OnInit {
 
     console.log(this.actoActual.min_aportes + " : MIN APORTES");
     console.log(this.datos.valor*this.actoActual.p_aportes);
-  }
+  }*/
   calcularRcd(): void{
     if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
       this.datos.rcd=this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100;
@@ -203,12 +238,13 @@ export class FormularioEditComponent implements OnInit {
     let total =0;
     let id = this.getPosActorById(actorId);
     if(this.listaActores[id].sellos) total+=this.datos.valorSello/this.listaActores.length;
-    if(this.listaActores[id].aporte) total+=this.datos.aportes/this.listaActores.length;
     if(this.listaActores[id].certificados) total+=this.datos.certificado;
     if(this.listaActores[id].municipal) total+=this.datos.municipal;
     if(this.listaActores[id].diligenciamiento) total+=this.datos.diligenciamiento;
     if(this.listaActores[id].rcd) total+=this.datos.rcd;
     if(this.listaActores[id].honorarios) total+=this.datos.honorarios;
+    if(this.listaActores[id].aporte) total+=this.datos.aportes/this.listaActores.length;
+
     if(this.listaActores[id].iva) total+=this.datos.iva;
     if(this.listaActores[id].inscripcion) total+=this.datos.inscripcion;
     if(this.listaActores[id].matricula) total+=this.datos.matricula;

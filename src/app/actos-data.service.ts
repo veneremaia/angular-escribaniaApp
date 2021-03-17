@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Acto } from './Acto';
 import { Actor } from './Actor';
+import { Escala } from './Escala';
 import { Escribania } from './Escribaniadatos';
 
 const URL_ACTOS = "https://5ff33aff28c3980017b19205.mockapi.io/acto"
 const URL_ACTORES = "https://5ff33aff28c3980017b19205.mockapi.io/actores"
 const URL_DATOS_ESCRIBANIA = "https://5ff33aff28c3980017b19205.mockapi.io/escribaniadatos"
+const URL_ESCALA_PORCENTUAL = "https://5ff33aff28c3980017b19205.mockapi.io/escala_porcentual"
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,11 @@ export class ActosDataService {
   public getAllActos() : Observable<Acto[]>{
     // devuelve un observable
     return this.http.get<Acto[]>(URL_ACTOS)
+  }
+
+  public getAllEscalas() : Observable<Escala[]>{
+    // devuelve un observable
+    return this.http.get<Escala[]>(URL_ESCALA_PORCENTUAL)
   }
 
   public getActoById(id : Number) : Observable<Acto>{

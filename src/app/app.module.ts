@@ -19,6 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfiguracionActorComponent } from './configuracion-actor/configuracion-actor.component';
 import { NuevocomponentComponent } from './nuevocomponent/nuevocomponent.component';
+import { EditActoComponent } from './edit-acto/edit-acto.component';
+import { CreateActoComponent } from './create-acto/create-acto.component';
+import { EscalaPorcentualComponent } from './escala-porcentual/escala-porcentual.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { NuevocomponentComponent } from './nuevocomponent/nuevocomponent.compone
     ConfiguracionComponent,
     ConfiguracionActosComponent,
     ConfiguracionActorComponent,
-    NuevocomponentComponent
+    NuevocomponentComponent,
+    EditActoComponent,
+    CreateActoComponent,
+    EscalaPorcentualComponent
     ],
   imports: [
     BrowserModule,

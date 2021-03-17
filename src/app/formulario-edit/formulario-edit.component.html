@@ -1,14 +1,10 @@
-<button *ngIf="isPrinted"  class="btn"><span  (click)="goToForm()" class="mb-3 material-icons md-36 d-flex justify-content-start">
-  keyboard_backspace
-  </span></button>
-
 <h1>{{escribaniaDatosApi[0].nombre}}.-</h1>
 <div class="row d-flex justify-content-between">
 <h4 class="col-6">Presupuesto.</h4>
 <h6 class="col-6 d-flex justify-content-end">{{fechaActual}}</h6>
 
 </div>
-<form class="row g-3">
+<form  *ngIf="!isPrinted" class="row g-3">
   <div class="col-12">
       <input type="text" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" (keyup)="setNombreCliente($event)">
   </div>
@@ -26,12 +22,12 @@
   <div class="col-md-6">
     <label for="inputPassword4" class="form-label">Certificados</label>
     <input type="number" placeholder="Cantidad de certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
-    <p *ngIf="!isPrinted" class="exclusion-text ml-2">Sin incluir municipal</p>
+    <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir municipal</p>
   </div>
   <div class="col-6">
     <label for="inputAddress" class="form-label">Folios</label>
     <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
-    <p *ngIf="!isPrinted" class="exclusion-text ml-2">Sin incluir duplicados</p>
+    <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir duplicados</p>
 
   </div>
 
@@ -59,7 +55,24 @@
 </div>
 
 
-  <div *ngIf="!isPrinted" class="col-12 mt-3">
+  <div class="col-12 mt-3">
     <button type="button" (click)="calcular()" class="col-4 btn btn-primary btn-lg btn-block btn-info">Calcular</button>
   </div>
 </form>
+
+
+<div class="list mt-5" *ngIf="isPrinted">
+<p class="h4 mb-3"><em>{{datos.nombreCliente}}</em></p>
+<p class="h5">{{actoActual.nombre_acto}}</p>
+<p class="h6">Valor  ${{datos.valor}}</p>
+<p class="h6" *ngIf="cantCertificados>0">Certicados : {{cantCertificados}}</p>
+<p class="h6" *ngIf="cantFolios>0">Folios : {{cantFolios}}</p>
+<p class="h6" *ngIf="tieneSello">Posee sellos</p>
+<p class="h6" *ngIf="!tieneSello"><small>No posee sellos></small></p>
+<p class="h6" *ngIf="tieneGanancia">Posee ganancias</p>
+<p class="h6" *ngIf="!tieneGanancia"><small>No posee ganancias</small></p>
+<p class="h6" *ngIf="tieneIti">Posee iti</p>
+<p class="h6" *ngIf="!tieneIti"><small>No posee iti</small></p>
+
+
+</div>
