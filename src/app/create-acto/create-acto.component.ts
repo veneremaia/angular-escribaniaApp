@@ -10,6 +10,9 @@ import { ActosDataService } from '../actos-data.service';
 })
 export class CreateActoComponent implements OnInit {
 
+  EPaportes : boolean = true;
+  EPhonorarios : boolean = true;
+
   actoActual: Acto = {
     "id": 0,
     "codigo_acto": "",
@@ -61,11 +64,24 @@ export class CreateActoComponent implements OnInit {
   }
 
   actualizarDatos(): void{
+    if(this.EPaportes)
+    this.actoActual.p_aportes=0;
+  if(this.EPhonorarios){
+    this.actoActual.p_honorarios=0;
+  }
       this.actosDataService.createActo(this.actoActual).subscribe(()=> console.log("anduvo"));
       this.toastr.success("El acto se creó correctamente");
   
   }
 
+  setAporteEscala(): void{
+    this.EPaportes = (this.EPaportes) ? false : true;
+  }
+
+  setHonorarioEscala(): void{
+    this.EPhonorarios = (this.EPhonorarios) ? false : true;
+  }
+  
   reset(): void{
     this.actoActual = {
       "id": 0,

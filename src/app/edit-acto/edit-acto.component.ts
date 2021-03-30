@@ -13,6 +13,8 @@ export class EditActoComponent implements OnInit {
   //Lista de actos desde la API
   actos: Acto[] = [];
   actores: Actor[]=[];
+  EPaportes : boolean = true;
+  EPhonorarios : boolean = true;
 
   
   actoActual: Acto = {
@@ -28,7 +30,8 @@ export class EditActoComponent implements OnInit {
     "p_iti": 0
   };
 
-  constructor(private actosDataService: ActosDataService, private toastr : ToastrService) { }
+  constructor(private actosDataService: ActosDataService, private toastr : ToastrService) { 
+  }
 
   ngOnInit(): void {
     this.actosDataService.getAllActos()
@@ -45,6 +48,8 @@ export class EditActoComponent implements OnInit {
 
   setActo(event: any){  
     this.actoActual = this.getActoById(event.value);
+    this.EPaportes = this.actoActual.p_aportes==0;
+    this.EPhonorarios = this.actoActual.p_honorarios==0;
     console.log("id del acto: "+this.actoActual.id);
   }
 
@@ -79,9 +84,21 @@ export class EditActoComponent implements OnInit {
   }
 
   actualizarDatos(): void{
+      if(this.EPaportes)
+        this.actoActual.p_aportes=0;
+      if(this.EPhonorarios){
+        this.actoActual.p_honorarios=0;
+      }
       this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));
       this.toastr.success("El acto se actualizó correctamente");
   }
+  setAporteEscala() : void {
+    this.EPaportes = (this.EPaportes) ? false : true;
+  }
+  setHonorarioEscala() : void {
+    this.EPhonorarios = (this.EPhonorarios) ? false : true;
+  }
+
   reset(): void{
     this.actoActual = {
       "id": 0,

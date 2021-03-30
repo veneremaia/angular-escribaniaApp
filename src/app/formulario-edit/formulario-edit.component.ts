@@ -176,18 +176,26 @@ export class FormularioEditComponent implements OnInit {
 
 calcularAporte(){
   // Busca en toda la escala la fila quede entre max y min del honorario
+  if(this.actoActual.p_aportes==0){
+    let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
+    let escala = this.escalaPorcentualApi[indiceEscala];
+    this.datos.aportes = this.escalaPorcentualApi[indiceEscala].aporte_fijo;
+    if(escala.aporte_fijo==0)
+      this.datos.aportes = this.datos.honorarios*escala.porcentaje_excedente/100;
+    if((this.datos.honorarios > escala.min)&&(escala.min>0)){
+      let excedente = this.datos.honorarios - escala.min;
+      this.datos.aportes += (excedente*escala.porcentaje_excedente/100);    
+    }
+}
+else{
+  console.log("No posee escala porcentual")
+  if(this.datos.valor*this.actoActual.p_aportes>=this.actoActual.min_aportes)
+    this.datos.aportes = this.datos.valor*this.actoActual.p_aportes;
+  else
+    this.datos.aportes = this.actoActual.min_aportes;
+  
+}
 
-  let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
-  let escala = this.escalaPorcentualApi[indiceEscala];
-  this.datos.aportes = this.escalaPorcentualApi[indiceEscala].aporte_fijo;
-  if(escala.aporte_fijo==0)
-    this.datos.aportes = this.datos.honorarios*escala.porcentaje_excedente/100;
-  if((this.datos.honorarios > escala.min)&&(escala.min>0)){
-    let excedente = this.datos.honorarios - escala.min;
-    this.datos.aportes += (excedente*escala.porcentaje_excedente/100); 
-      
-    
-  }
 }
 
 getEscalaPorcentual(valorHonorario : number) : number{
