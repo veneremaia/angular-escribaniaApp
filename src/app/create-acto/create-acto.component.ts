@@ -10,9 +10,6 @@ import { ActosDataService } from '../actos-data.service';
 })
 export class CreateActoComponent implements OnInit {
 
-  EPaportes : boolean = true;
-  EPhonorarios : boolean = true;
-
   actoActual: Acto = {
     "id": 0,
     "codigo_acto": "",
@@ -26,7 +23,8 @@ export class CreateActoComponent implements OnInit {
     "p_iti": 0
   };
 
-  
+  EPaportes : boolean = false;
+  EPhonorarios : boolean = false;
   constructor(private actosDataService: ActosDataService, private toastr : ToastrService) { }
 
   ngOnInit(): void {
@@ -64,11 +62,6 @@ export class CreateActoComponent implements OnInit {
   }
 
   actualizarDatos(): void{
-    if(this.EPaportes)
-    this.actoActual.p_aportes=0;
-  if(this.EPhonorarios){
-    this.actoActual.p_honorarios=0;
-  }
       this.actosDataService.createActo(this.actoActual).subscribe(()=> console.log("anduvo"));
       this.toastr.success("El acto se creó correctamente");
   
@@ -78,8 +71,16 @@ export class CreateActoComponent implements OnInit {
     this.EPaportes = (this.EPaportes) ? false : true;
   }
 
+  setEscalaCompleta(): void{
+    this.actoActual.p_aportes = -1;
+  }
+  setMediaEscala(): void{
+    this.actoActual.p_aportes = -2;
+  }
+
   setHonorarioEscala(): void{
     this.EPhonorarios = (this.EPhonorarios) ? false : true;
+    this.actoActual.p_honorarios = 0;
   }
   
   reset(): void{

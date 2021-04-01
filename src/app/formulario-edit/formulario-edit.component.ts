@@ -71,7 +71,6 @@ export class FormularioEditComponent implements OnInit {
 
   // Actores a actualizar en el service
   listaActores : Actor[]=[];
-  restablecer : boolean = false;
   // isShowed a actualizar en el service
   isShowed : boolean = false;
   // isPrinted a actualizar en el service
@@ -176,7 +175,7 @@ export class FormularioEditComponent implements OnInit {
 
 calcularAporte(){
   // Busca en toda la escala la fila quede entre max y min del honorario
-  if(this.actoActual.p_aportes==0){
+  if(this.actoActual.p_aportes<0){
     let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
     let escala = this.escalaPorcentualApi[indiceEscala];
     this.datos.aportes = this.escalaPorcentualApi[indiceEscala].aporte_fijo;
@@ -185,6 +184,9 @@ calcularAporte(){
     if((this.datos.honorarios > escala.min)&&(escala.min>0)){
       let excedente = this.datos.honorarios - escala.min;
       this.datos.aportes += (excedente*escala.porcentaje_excedente/100);    
+    }
+    if(this.actoActual.p_aportes==-2){
+      this.datos.aportes = this.datos.aportes/2;
     }
 }
 else{
@@ -333,10 +335,6 @@ getEscalaPorcentual(valorHonorario : number) : number{
         this.listaActores.push(actor);
         console.log("tamaño de lista de actores "+this.listaActores.length)
       });
-  }
-
-  reestablecer(){
-    
   }
 
   getActoById(id : any) : any{
