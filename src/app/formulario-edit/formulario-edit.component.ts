@@ -128,18 +128,19 @@ export class FormularioEditComponent implements OnInit {
 
 
   setSello() {
-    (this.tieneSello) ? this.tieneSello=false : this.tieneSello = true;
+    this.tieneSello = (this.tieneSello) ? this.tieneSello=false : this.tieneSello = true;
   }
 
   setGanancias() {
-    (this.tieneGanancia) ? this.tieneGanancia=false : this.tieneGanancia = true;
+    this.tieneGanancia = (this.tieneGanancia) ? this.tieneGanancia=false : this.tieneGanancia = true;
   }
 
   setIti() {
-    (this.tieneIti) ? this.tieneIti=false : this.tieneIti = true;
+    this.tieneIti=(this.tieneIti) ? this.tieneIti=false : this.tieneIti = true;
   }
 
   calcularSello() : void {
+    this.datos.valorSello = 0;
     if(this.tieneSello)
       this.datos.valorSello=this.datos.valor*this.actoActual.p_sellos/100;
     console.log(this.datos.valor);
@@ -226,11 +227,13 @@ getEscalaPorcentual(valorHonorario : number) : number{
   }
 
   calcularGanancias() : void{
+    this.datos.valorGanancia = 0;
     if(this.tieneGanancia)
     this.datos.valorGanancia=this.datos.valor*this.actoActual.p_ganancias/100;
   }
 
   calcularIti() : void{
+    this.datos.valorIti = 0;
     if(this.tieneIti)
     this.datos.valorIti=this.datos.valor*this.actoActual.p_iti/100;
   }
@@ -304,6 +307,7 @@ getEscalaPorcentual(valorHonorario : number) : number{
     })
     console.log("Total totales: "+this.datos.total);
   }
+
 
   actualizarActores(){
     this.actoService.eliminarActores();
