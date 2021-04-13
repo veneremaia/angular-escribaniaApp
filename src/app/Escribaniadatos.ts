@@ -9,5 +9,7 @@ export interface Escribania{
     imp_municipal: number;
     folio: number;
     certificado: number;
+    min_diligenciamiento: number;
+    min_valor_diligenciamiento: number;
     
 }

@@ -8,29 +8,34 @@
   <div class="col-12">
       <input type="text" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" (keyup)="setNombreCliente($event)">
   </div>
-  <div class="col-md-12">
+  <div class="col-md-12  mt-2">
     <label for="inputEmail4" class="form-label">Acto</label>
     <select id="acto" class="form-control" (change)="setActo($event.target!)" >
       <option selected disabled>Seleccione el acto</option>
       <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
       
     </select>  </div>
-    <div class="col-12">
+    <div class="col-12  mt-2">
       <label for="inputAddress" class="form-label">Valor</label>
       <input type="number" placeholder="Valor" class="form-control" id="inputValor" (keyup)="setValor($event)">
     </div>
-  <div class="col-md-6">
+  
+  <div class="col-md-4  mt-2">
     <label for="inputPassword4" class="form-label">Certificados</label>
-    <input type="number" placeholder="Cantidad de certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
-    <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir municipal</p>
+    <input type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
   </div>
-  <div class="col-6">
+
+  <div class="col-md-4 mt-2">
+    <label for="inputPassword4" class="form-label">Municipal</label>
+    <input type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" (keyup)="setCertificadosMunicipal($event)">
+  </div>
+
+  <div class="col-6  mt-2">
     <label for="inputAddress" class="form-label">Folios</label>
     <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
     <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir duplicados</p>
 
   </div>
-
   <div class="col-8">
   <div class="form-check col-4">
     <input class="form-check-input"  (click)="setSello()" type="checkbox" value="" id="flexCheckDefault1">
@@ -53,6 +58,7 @@
     </label>
   </div>
 </div>
+
 
 
   <div class="col-12 mt-3">

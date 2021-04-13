@@ -106,6 +106,14 @@ export class ConfiguracionComponent implements OnInit {
     changeCertificados(event: any) : void{
       this.escribaniaDatosApi[0].certificado=Number(event.target.value);
     }
+
+    changeValorMinSegunDiligenciamiento (event : any) : void {
+      this.escribaniaDatosApi[0].min_valor_diligenciamiento = Number(event.target.value);
+    }
+
+    changeMinDiligenciamiento (event : any) : void {
+      this.escribaniaDatosApi[0].min_diligenciamiento = Number(event.target.value);
+    }
     actualizarDatos(): void{
       if(this.actoActual.id!=0)
         this.actosDataService.updateActo(this.actoActual).subscribe(()=> console.log("anduvo"));

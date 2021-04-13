@@ -67,6 +67,7 @@ export class FormularioEditComponent implements OnInit {
   tieneIti: boolean = false;
   cantFolios : number = 0;
   cantCertificados : number = 0;
+  cantMunicipal : number = 0;
   
 
   // Actores a actualizar en el service
@@ -108,6 +109,7 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.actualizarIsPrinted(this.isPrinted);
   }
   setValor(event: any) {
+    this.datos.valor =0;
     this.datos.valor= event.target.value;
   }
 // ACAAAAA
@@ -115,9 +117,17 @@ export class FormularioEditComponent implements OnInit {
     this.datos.nombreCliente= event.target.value;
   }
   setCertificados(event: any) {
-    this.cantCertificados = event.target.value;
-    this.datos.certificado= event.target.value*this.escribaniaDatosApi[0].certificado;
+    this.cantCertificados = Number(event.target.value);
+    this.datos.certificado = 0;
+    this.datos.certificado= this.cantCertificados*this.escribaniaDatosApi[0].certificado;
     console.log("Certificados: " + this.datos.certificado);
+  }
+ 
+
+  setCertificadosMunicipal(event: any) {
+    this.datos.municipal = 0;
+    this.cantMunicipal = Number(event.target.value);
+    this.datos.municipal = this.cantMunicipal*this.escribaniaDatosApi[0].imp_municipal;
   }
 
   setFolios(event: any) {
@@ -149,6 +159,7 @@ export class FormularioEditComponent implements OnInit {
   }
 
   calcularHonorarios(): void{
+    this.datos.honorarios = 0;
     if(this.datos.valor*this.actoActual.p_honorarios/100>this.actoActual.min_honorarios)
     this.datos.honorarios= this.datos.valor*this.actoActual.p_honorarios/100;
     else
@@ -160,16 +171,14 @@ export class FormularioEditComponent implements OnInit {
   }
 
   calcularDiligenciamiento() : void{
-    if(this.datos.valor<298116)
-      this.datos.diligenciamiento=4175;
+    if(this.datos.valor<this.escribaniaDatosApi[0].min_valor_diligenciamiento)
+      this.datos.diligenciamiento=this.escribaniaDatosApi[0].min_diligenciamiento;
     else{
-      let excedente: number = this.datos.valor-298116;
-      this.datos.diligenciamiento=(excedente/1000)*2+4175;
+      let excedente: number = this.datos.valor-this.escribaniaDatosApi[0].min_valor_diligenciamiento;
+      this.datos.diligenciamiento=(excedente/1000)*2+this.escribaniaDatosApi[0].min_diligenciamiento;
     }
   }
-  calcularMunicipal(): void {
-    this.datos.municipal = this.escribaniaDatosApi[0].imp_municipal;
-  }
+
   calcularInscripcion(): void {
     this.datos.inscripcion = this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
   }
@@ -287,7 +296,6 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.calcularAporte(); // difiere x acto
     this.calcularRcd(); // lo configura la escribania
     this.calcularInscripcion(); // 
-    this.calcularMunicipal(); // lo configura la escribania
     this.calcularDiligenciamiento(); // lo configura la escribania esta en tabla
     this.listaActores.forEach(actor => {
       this.calculcarTotalActor(actor.id);
