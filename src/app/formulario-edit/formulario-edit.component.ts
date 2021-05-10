@@ -6,6 +6,7 @@ import { Datos } from './Datos';
 import { Actor } from '../Actor';
 import { Escribania } from '../Escribaniadatos';
 import { Escala } from '../Escala';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -25,6 +26,19 @@ export class FormularioEditComponent implements OnInit {
   escribaniaDatosApi: Escribania[]=[];
   // Datos escala porcentual API
   escalaPorcentualApi : Escala[]=[];
+
+  formCalculador = new FormGroup({
+    acto : new FormControl('', Validators.required),
+    valor : new FormControl('', Validators.required),
+    certificados : new FormControl('', Validators.required),
+    municipal : new FormControl('', Validators.required),
+    folios : new FormControl('', Validators.required),
+    sellos : new FormControl('', Validators.required),
+    ganancias : new FormControl('', Validators.required),
+    iti : new FormControl('', Validators.required),
+    nombreCliente : new FormControl('', Validators.required),
+
+  });
 
   // Dato final que mostraremos en resultados
   datos : Datos  = {
@@ -108,46 +122,29 @@ export class FormularioEditComponent implements OnInit {
     this.isPrinted = false;
     this.actoService.actualizarIsPrinted(this.isPrinted);
   }
-  setValor(event: any) {
-    this.datos.valor =0;
-    this.datos.valor= event.target.value;
-  }
-// ACAAAAA
-  setNombreCliente(event: any) {
-    this.datos.nombreCliente= event.target.value;
-  }
-  setCertificados(event: any) {
-    this.cantCertificados = Number(event.target.value);
+
+
+  setCertificados(value : string) {
+    this.cantCertificados = Number(value);
     this.datos.certificado = 0;
     this.datos.certificado= this.cantCertificados*this.escribaniaDatosApi[0].certificado;
     console.log("Certificados: " + this.datos.certificado);
   }
  
 
-  setCertificadosMunicipal(event: any) {
+  setCertificadosMunicipal(value : string) {
     this.datos.municipal = 0;
-    this.cantMunicipal = Number(event.target.value);
+    this.cantMunicipal = Number(value);
     this.datos.municipal = this.cantMunicipal*this.escribaniaDatosApi[0].imp_municipal;
   }
 
-  setFolios(event: any) {
-    this.cantFolios = event.target.value;
-    this.datos.folios= (event.target.value*2+2)*this.escribaniaDatosApi[0].folio;
+  setFolios(value : string) {
+    this.cantFolios = Number(value);
+    this.datos.folios= (this.cantFolios*2+2)*this.escribaniaDatosApi[0].folio;
     console.log("Folios: "+this.datos.folios);
   }
 
 
-  setSello() {
-    this.tieneSello = (this.tieneSello) ? this.tieneSello=false : this.tieneSello = true;
-  }
-
-  setGanancias() {
-    this.tieneGanancia = (this.tieneGanancia) ? this.tieneGanancia=false : this.tieneGanancia = true;
-  }
-
-  setIti() {
-    this.tieneIti=(this.tieneIti) ? this.tieneIti=false : this.tieneIti = true;
-  }
 
   calcularSello() : void {
     this.datos.valorSello = 0;
@@ -282,6 +279,16 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.actoService.actualizarDatos(datos);
   }
   calcular(){
+    
+    this.datos.nombreCliente= this.formCalculador.value.nombreCliente;
+    this.datos.valor= this.formCalculador.value.valor;
+    this.setCertificados(this.formCalculador.value.certificados);
+    this.setCertificadosMunicipal(this.formCalculador.value.municipal);
+    this.setFolios(this.formCalculador.value.folios);
+    this.tieneSello = (this.formCalculador.value.sellos==true) ? true : false;
+    this.tieneGanancia = (this.formCalculador.value.ganancias==true) ? true : false;
+    this.tieneIti = (this.formCalculador.value.iti==true) ? true : false;
+    
     this.isShowed = false;
     this.datos.total = 0;
     this.actoService.actualizarIsShowed(this.isShowed)

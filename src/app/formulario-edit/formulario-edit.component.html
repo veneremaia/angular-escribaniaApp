@@ -4,55 +4,55 @@
 <h6 class="col-6 d-flex justify-content-end">{{fechaActual}}</h6>
 
 </div>
-<form  *ngIf="!isPrinted" class="row g-3">
+<form  [formGroup]="formCalculador"  *ngIf="!isPrinted" class="row g-3">
   <div class="col-12">
-      <input type="text" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" (keyup)="setNombreCliente($event)">
+      <input type="text" formControlName="nombreCliente" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" >
   </div>
   <div class="col-md-12  mt-2">
     <label for="inputEmail4" class="form-label">Acto</label>
-    <select id="acto" class="form-control" (change)="setActo($event.target!)" >
+    <select formControlName="acto" id="acto" class="form-control" (change)="setActo($event.target!)" >
       <option selected disabled>Seleccione el acto</option>
       <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
       
     </select>  </div>
     <div class="col-12  mt-2">
       <label for="inputAddress" class="form-label">Valor</label>
-      <input type="number" placeholder="Valor" class="form-control" id="inputValor" (keyup)="setValor($event)">
+      <input formControlName="valor" type="number" placeholder="Valor" class="form-control" id="inputValor" >
     </div>
   
   <div class="col-md-4  mt-2">
     <label for="inputPassword4" class="form-label">Certificados</label>
-    <input type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" (keyup)="setCertificados($event)">
+    <input  formControlName="certificados" type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados">
   </div>
 
   <div class="col-md-4 mt-2">
     <label for="inputPassword4" class="form-label">Municipal</label>
-    <input type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" (keyup)="setCertificadosMunicipal($event)">
+    <input formControlName="municipal" type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" >
   </div>
 
   <div class="col-6  mt-2">
     <label for="inputAddress" class="form-label">Folios</label>
-    <input type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios" (keyup)="setFolios($event)">
+    <input  formControlName="folios" type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios">
     <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir duplicados</p>
 
   </div>
   <div class="col-8">
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setSello()" type="checkbox" value="" id="flexCheckDefault1">
+    <input formControlName="sellos" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault1">
     <label class="form-check-label" for="flexCheckDefault1">
       Sellos
     </label>
   </div>
 
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setGanancias()" type="checkbox" value="" id="flexCheckDefault2">
+    <input formControlName="ganancias" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault2">
     <label class="form-check-label" for="flexCheckDefault2">
       Ganancias
     </label>
   </div>
 
   <div class="form-check col-4">
-    <input class="form-check-input"  (click)="setIti()" type="checkbox" value="" id="flexCheckDefault3">
+    <input  formControlName="iti" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault3">
     <label class="form-check-label" for="flexCheckDefault3">
       Iti
     </label>
