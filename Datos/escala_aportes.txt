@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1",
+    "min": 0,
+    "max": 200000,
+    "aporte_fijo": 0,
+    "porcentaje_excedente": 20
+  },
+  {
+    "id": "2",
+    "min": 200000,
+    "max": 250000,
+    "aporte_fijo": 40000,
+    "porcentaje_excedente": 19
+  },
+  {
+    "id": "3",
+    "min": 250000,
+    "max": 300000,
+    "aporte_fijo": 49500,
+    "porcentaje_excedente": 18
+  },
+  {
+    "id": "4",
+    "min": 300000,
+    "max": 350000,
+    "aporte_fijo": 58500,
+    "porcentaje_excedente": 17
+  },
+  {
+    "id": "5",
+    "min": 350000,
+    "max": 400000,
+    "aporte_fijo": 67000,
+    "porcentaje_excedente": 16
+  },
+  {
+    "id": "6",
+    "min": 400000,
+    "max": 500000,
+    "aporte_fijo": 75000,
+    "porcentaje_excedente": 14
+  },
+  {
+    "id": "7",
+    "min": 500000,
+    "max": 600000,
+    "aporte_fijo": 89000,
+    "porcentaje_excedente": 12
+  },
+  {
+    "id": "8",
+    "min": 600000,
+    "max": 800000,
+    "aporte_fijo": 101000,
+    "porcentaje_excedente": 10
+  },
+  {
+    "id": "9",
+    "min": 800000,
+    "max": 1100000,
+    "aporte_fijo": 121000,
+    "porcentaje_excedente": 8
+  },
+  {
+    "id": "10",
+    "min": 1100000,
+    "max": 1500000,
+    "aporte_fijo": 145000,
+    "porcentaje_excedente": 6
+  },
+  {
+    "id": "11",
+    "min": 1500000,
+    "max": 2000000,
+    "aporte_fijo": 169000,
+    "porcentaje_excedente": 4
+  },
+  {
+    "id": "12",
+    "min": 2000000,
+    "max": 100000000000000000000,
+    "aporte_fijo": 189000,
+    "porcentaje_excedente": 2
+  }
+]

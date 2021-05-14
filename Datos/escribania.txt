@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "nombre": "Escribania Saling",
+    "matricula": 3500,
+    "gestor": 8500,
+    "p_rcd": 1,
+    "min_rcd": 12100,
+    "imp_municipal": 1500,
+    "folios": 650,
+    "certificados": 1000,
+    "folio": 650,
+    "certificado": 1500,
+    "min_diligenciamiento": 4175,
+    "min_valor_diligenciamiento": 298116
+  }
+]

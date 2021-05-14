@@ -11,5 +11,8 @@ export interface Escribania{
     certificado: number;
     min_diligenciamiento: number;
     min_valor_diligenciamiento: number;
+    min_valor_honorario_escala: number;
+    min_valor_escritura_he: number;
+    p_honorario_escala_exedente: number;
     
 }

@@ -69,18 +69,22 @@ export class CreateActoComponent implements OnInit {
 
   setAporteEscala(): void{
     this.EPaportes = (this.EPaportes) ? false : true;
+    
   }
 
   setEscalaCompleta(): void{
     this.actoActual.p_aportes = -1;
+    this.actoActual.min_aportes = 0;
   }
   setMediaEscala(): void{
     this.actoActual.p_aportes = -2;
+    this.actoActual.min_aportes = 0;
   }
 
   setHonorarioEscala(): void{
     this.EPhonorarios = (this.EPhonorarios) ? false : true;
     this.actoActual.p_honorarios = 0;
+    this.actoActual.min_honorarios = 0;
   }
   
   reset(): void{

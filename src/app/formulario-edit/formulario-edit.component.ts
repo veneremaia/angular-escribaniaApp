@@ -157,10 +157,24 @@ export class FormularioEditComponent implements OnInit {
 
   calcularHonorarios(): void{
     this.datos.honorarios = 0;
+    if(this.actoActual.p_honorarios>0){
+      // Si el valor de escritura es menor o igual al minimo puesto por la escala porcentual de honorarios
+      if(this.datos.valor<=this.escribaniaDatosApi[0].min_valor_escritura_he)
+        this.datos.honorarios = this.escribaniaDatosApi[0].min_valor_honorario_escala;
+      else{
+        let excedente = this.datos.valor - this.escribaniaDatosApi[0].min_valor_escritura_he;
+        this.datos.honorarios = this.escribaniaDatosApi[0].min_valor_escritura_he + (excedente*this.escribaniaDatosApi[0].p_honorario_escala_exedente);
+      }
+
+
+    }
+    else{
+
     if(this.datos.valor*this.actoActual.p_honorarios/100>this.actoActual.min_honorarios)
     this.datos.honorarios= this.datos.valor*this.actoActual.p_honorarios/100;
     else
     this.datos.honorarios=this.actoActual.min_honorarios;
+    }
   }
 
   calcularIva(): void{
@@ -214,17 +228,7 @@ getEscalaPorcentual(valorHonorario : number) : number{
   }
   return 0;
 } 
-/*
-  calcularAporte(){
-    console.log(this.datos.valor*this.actoActual.p_aportes); 
-    if(this.datos.valor*this.actoActual.p_aportes>this.actoActual.min_aportes)
-      this.datos.aportes=this.datos.valor*this.actoActual.p_aportes;
-    else
-      this.datos.aportes= this.actoActual.min_aportes;
 
-    console.log(this.actoActual.min_aportes + " : MIN APORTES");
-    console.log(this.datos.valor*this.actoActual.p_aportes);
-  }*/
   calcularRcd(): void{
     if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
       this.datos.rcd=this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100;

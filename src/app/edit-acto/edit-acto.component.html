@@ -26,14 +26,15 @@
 
 
         <div *ngIf="actoActual.id!=0">
+            <form [formGroup]="formEdicionActo">
             <div class="row d-flex justify-content-start">
                 <div class="input-group mb-3 col-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Código</span>
-                    <input type="text" disabled class="form-control" aria-label="Sizing example input"  (keyup)="changeCodigo($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.codigo_acto}}>
-                </div>
+                    <input  formControlName="codigo" type="text" disabled class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actoActual.codigo_acto}}>
+                </div>  
             <div class="input-group mb-3 col-4">
                 <span class="input-group-text" id="inputGroup-sizing-default">Sellos</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeSello($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_sellos}}>
+                <input formControlName="p_sellos" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_sellos}}>
                 <span class="input-group-text">%</span>
             </div>
         </div>
@@ -41,13 +42,13 @@
 
                 <div class="input-group mb-3 col-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Ganancias</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeGanancias($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_ganancias}}>
+                    <input formControlName="p_ganancias" type="text" class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actoActual.p_ganancias}}>
                     <span class="input-group-text">%</span>
                 </div>
 
                 <div class="input-group mb-3 col-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Iti</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeIti($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_iti}}>
+                    <input formControlName="p_iti" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_iti}}>
                     <span class="input-group-text">%</span>
                 </div>
       
@@ -60,7 +61,7 @@
      
 
             <div class="form-check form-switch ml-3 col-12">
-                <input class="form-check-input"  [checked]="EPhonorarios" type="checkbox" id="escalaHonorario" (click)="setHonorarioEscala()">
+                <input class="form-check-input" formControlName="escala_honorarios" [checked]="EPhonorarios" (click)="setHonorarioEscala()" type="checkbox" id="escalaHonorario" >
                 <label class="form-check-label" for="escalaHonorario">Escala</label>
               </div>
             </div>
@@ -68,13 +69,13 @@
      
             <div  class="input-group mb-3 col-4">
                 <span class="input-group-text" id="inputGroup-sizing-default">Honorarios</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeHonorarios($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_honorarios}}>
+                <input type="text" class="form-control" formControlName="p_honorarios" aria-label="Sizing example input"   aria-describedby="inputGroup-sizing-default" value={{actoActual.p_honorarios}}>
                 <span class="input-group-text">%</span>
             </div>  
 
             <div *ngIf="!EPhonorarios" class="input-group mb-3 col-4">
                 <span class="input-group-text" id="inputGroup-sizing-default">Min. honorarios</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeMinHonorarios($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.min_honorarios}}>
+                <input type="text" formControlName="min_honorarios" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value={{actoActual.min_honorarios}}>
             </div>
         </div>
 
@@ -85,40 +86,40 @@
             <p class="mb-0">APORTES: </p>
         </div>
         <div class="form-check form-switch ml-3 col-12">
-            <input class="form-check-input"[checked]="EPaportes"  type="checkbox" id="flexSwitchCheckChecked" (click)="setAporteEscala()">
+            <input class="form-check-input {{EPaportes}}" formControlName="aporte_escala" [checked]="EPaportes" (click)="setPoseeEscalaAportes()" type="checkbox" id="flexSwitchCheckChecked">
             <label class="form-check-label" for="flexSwitchCheckChecked">Escala</label>
           </div>
           <div *ngIf="EPaportes" class="form-check form-check-inline  ml-3 col-12">
-            <input class="form-check-input" type="radio"[checked]="actoActual.p_aportes==-1" (click)="setEscalaCompleta()" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <input class="form-check-input" type="radio"[checked]="actoActual.p_aportes==-1" (click)="setEscalaCompleta()" name="inlineRadioOptions" id="inlineRadio1" >
             <label class="form-check-label" for="inlineRadio1">Escala completa</label>
           </div>
           <div  *ngIf="EPaportes" class="form-check form-check-inline  ml-3 col-12">
-            <input class="form-check-input" type="radio"[checked]="actoActual.p_aportes==-2" (click)="setMediaEscala()" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <input class="form-check-input"  type="radio"[checked]="actoActual.p_aportes==-2" (click)="setMediaEscala()" name="inlineRadioOptions1" id="inlineRadio2" >
             <label class="form-check-label" for="inlineRadio2">1/2 Escala</label>
           </div>
         </div>
 
-            <div  class="row d-flex justify-content-start">
-                <div *ngIf="!EPaportes" class="input-group mb-3 col-4">
+            <div  *ngIf="!EPaportes" class="row d-flex justify-content-start">
+                <div  class="input-group mb-3 col-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Aportes</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeAportes($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.p_aportes}}>
+                    <input type="text" class="form-control" formControlName="p_aporte" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actoActual.p_aportes}}>
                     <span class="input-group-text">%</span>
                 </div>
         
-                <div  *ngIf="!EPaportes" class="input-group mb-3 col-4">
+                <div  class="input-group mb-3 col-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Min. aportes</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" (keyup)="changeMinAportes($event)" aria-describedby="inputGroup-sizing-default" value={{actoActual.min_aportes}}>
+                    <input type="text" class="form-control" formControlName="min_aporte" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default" value={{actoActual.min_aportes}}>
                 </div>
             </div>
 
+        </form>
+  </div>
+
               
 
-        </div>
+</div>
 
-     
-    </div>
-
-    <div class="row d-flex justify-content-start " *ngIf="this.actoActual.id!=0">
+<div class="row d-flex justify-content-start {{this.actoActual.id}}" *ngIf="this.actoActual.id!=0">
         <h6 class="col-12">Lista de actores del acto {{this.actoActual.nombre_acto}}</h6>
         <div class="col-7 m-3">
         <button type="button" class="btn btn-outline-success d-flex align-items-center"[routerLink]="['/nuevoActor',actoActual.id]">
