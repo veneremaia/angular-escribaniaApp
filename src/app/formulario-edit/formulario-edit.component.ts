@@ -157,7 +157,7 @@ export class FormularioEditComponent implements OnInit {
 
   calcularHonorarios(): void{
     this.datos.honorarios = 0;
-    if(this.actoActual.p_honorarios>0){
+    if(this.actoActual.p_honorarios<0){
       // Si el valor de escritura es menor o igual al minimo puesto por la escala porcentual de honorarios
       if(this.datos.valor<=this.escribaniaDatosApi[0].min_valor_escritura_he)
         this.datos.honorarios = this.escribaniaDatosApi[0].min_valor_honorario_escala;
