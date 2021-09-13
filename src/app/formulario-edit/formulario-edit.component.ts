@@ -29,9 +29,9 @@ export class FormularioEditComponent implements OnInit {
     certificados : new FormControl('', Validators.required),
     municipal : new FormControl('', Validators.required),
     folios : new FormControl('', Validators.required),
-    sellos : new FormControl('', Validators.required),
-    ganancias : new FormControl('', Validators.required),
-    iti : new FormControl('', Validators.required),
+    sellos : new FormControl(''),
+    ganancias : new FormControl(''),
+    iti : new FormControl(''),
     nombreCliente : new FormControl('', Validators.required),
 
   });
@@ -98,7 +98,18 @@ export class FormularioEditComponent implements OnInit {
   ngOnInit(): void {
     // traigo todos los actos de la api
     this.actosDataService.getAllActos()
-    .subscribe(actos =>this.actosApi = actos);
+    .subscribe(actos =>{
+      this.actosApi = actos;
+      this.actosApi = this.actosApi.sort((obj1: Acto, obj2: Acto) => {
+        if (obj1.nombre_acto.toLowerCase() > obj2.nombre_acto.toLowerCase()) {
+          return 1;
+        }
+        if (obj1.nombre_acto.toLowerCase() < obj2.nombre_acto.toLowerCase())
+          return -1;
+        return 0;
+      })}
+      );
+    
     // traigo la escala porcentual de la api
     this.actosDataService.getAllEscalas()
     .subscribe(escala =>this.escalaPorcentualApi = escala);
@@ -279,8 +290,14 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.actoService.actualizarDatos(datos);
   }
   calcular(){
-    
+    this.actoService.eliminarActores();
+    this.actoService.eliminarDatos();
+    this.listaActores = [];
+    this.isShowed = false;
+    this.datos.total = 0;
+    //Datos del formulario
     this.datos.nombreCliente= this.formCalculador.value.nombreCliente;
+    this.actoActual = this.getActoById(this.formCalculador.value.acto);
     this.datos.valor= this.formCalculador.value.valor;
     this.setCertificados(this.formCalculador.value.certificados);
     this.setCertificadosMunicipal(this.formCalculador.value.municipal);
@@ -289,11 +306,13 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.tieneGanancia = (this.formCalculador.value.ganancias==true) ? true : false;
     this.tieneIti = (this.formCalculador.value.iti==true) ? true : false;
     
-    this.isShowed = false;
-    this.datos.total = 0;
+
     this.actoService.actualizarIsShowed(this.isShowed)
-    this.actoService.eliminarActores();
-    this.actoService.eliminarDatos();
+
+    this.datos.nombreActo = this.actoActual.nombre_acto;
+    this.datos.id_acto = this.actoActual.id
+    this.setActores(this.datos.id_acto);
+
     this.datos.matricula = this.escribaniaDatosApi[0].matricula;
     this.calcularSello(); // difiere x acto
     this.calcularGanancias(); // 3%
@@ -326,33 +345,14 @@ getEscalaPorcentual(valorHonorario : number) : number{
 
   actualizarActores(){
     this.actoService.eliminarActores();
-    console.log(this.actoService.actoresList + "LISTA ACTORES VACIA");
     this.listaActores.forEach(actor => {
       this.actoService.actualizarActores(actor);
     });
   }
-
-
-  setActo(event: any){  
-    this.listaActores = [];
-    console.log("SetActo metodo init")
-    this.actoActual = this.getActoById(event.value);
-    console.log(event.value);
-
-    this.datos.nombreActo = this.actoActual.nombre_acto;
-    console.log("nombre acto " + this.datos.nombreActo);
-    this.datos.id_acto = this.actoActual.id;
-    console.log("id acto "+this.datos.id_acto);
-    
-    this.setActores(this.datos.id_acto);
-    console.log(this.listaActores[0].sellos)
-  }
-  
   setActores(idActo: number): void{
       this.listaActoresApi.forEach(actor => {
         if(actor.id_acto==idActo)
         this.listaActores.push(actor);
-        console.log("tamaño de lista de actores "+this.listaActores.length)
       });
   }
 

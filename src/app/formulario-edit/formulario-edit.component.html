@@ -1,16 +1,16 @@
-<h1>{{escribaniaDatosApi[0].nombre}}.-</h1>
+<h1>{{escribaniaDatosApi[0]?.nombre}}.-</h1>
 <div class="row d-flex justify-content-between">
 <h4 class="col-6">Presupuesto.</h4>
 <h6 class="col-6 d-flex justify-content-end">{{fechaActual}}</h6>
 
 </div>
-<form  [formGroup]="formCalculador"  *ngIf="!isPrinted" class="row g-3">
+<form  [formGroup]="formCalculador" (ngSubmit)="calcular()" *ngIf="!isPrinted" class="row g-3">
   <div class="col-12">
       <input type="text" formControlName="nombreCliente" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" >
   </div>
   <div class="col-md-12  mt-2">
     <label for="inputEmail4" class="form-label">Acto</label>
-    <select formControlName="acto" id="acto" class="form-control" (change)="setActo($event.target!)" >
+    <select formControlName="acto" id="acto" class="form-control" >
       <option selected disabled>Seleccione el acto</option>
       <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
       
@@ -62,7 +62,7 @@
 
 
   <div class="col-12 mt-3">
-    <button type="button" (click)="calcular()" class="col-4 btn btn-primary btn-lg btn-block btn-info">Calcular</button>
+    <button type="submit"  class="col-4 btn btn-primary btn-lg btn-block btn-info">Calcular</button>
   </div>
 </form>
 

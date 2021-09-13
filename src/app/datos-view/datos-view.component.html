@@ -1,4 +1,4 @@
-<div *ngIf="datosFinales[0].nombreCliente!=''" class="contenedor-view container">
+<div *ngIf="datosFinales[0]" class="contenedor-view container">
   <div class="col-12 d-flex justify-content-end">
     <button *ngIf="!isPrinted" type="button" (click)="clickModoImprimir()" class="mb-3 col-1 btn btn-outline-secondary btn-lg btn-block"><span class="material-icons">
       local_printshop
@@ -77,7 +77,7 @@
 
 
 </div>
-<div class="row d-flex justify-content-center">
+<div  *ngIf="datosFinales[0]" class="row d-flex justify-content-center">
   <span  id="totalfinal"  *ngIf="datosFinales[0].total!=0"class="badge badge-success col-11 d-flex justify-content-center align-items-center">TOTAL : {{datosFinales[0].total | number}}</span>
 
 </div>
