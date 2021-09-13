@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Actor } from '../Actor';
-import { ActoDatosService } from '../datos.service';
-import { Datos } from '../formulario-edit/Datos';
+import { Actor, Datos } from '../services/api-model';
+import { ActoDatosService } from '../services/datos.service';
+
 
 @Component({
   selector: 'app-datos-view',

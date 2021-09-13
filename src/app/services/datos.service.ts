@@ -1,8 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, fromEventPattern } from 'rxjs';
-import { Actor } from './Actor';
-import { Datos } from './formulario-edit/Datos';
+import { Actor, Datos } from './api-model';
 
 @Injectable({
   providedIn: 'root'

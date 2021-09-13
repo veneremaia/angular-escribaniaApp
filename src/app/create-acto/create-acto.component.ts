@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Acto } from '../Acto';
-import { ActosDataService } from '../actos-data.service';
+import { ActosDataService } from '../services/actos-data.service';
+import { Acto } from '../services/api-model';
 
 @Component({
   selector: 'app-create-acto',

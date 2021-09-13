@@ -1,12 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Acto } from '../Acto';
-import { ActoDatosService } from '../datos.service';
-import { ActosDataService } from '../actos-data.service';
-import { Datos } from './Datos';
-import { Actor } from '../Actor';
-import { Escribania } from '../Escribaniadatos';
-import { Escala } from '../Escala';
+import { ActoDatosService } from '../services/datos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Acto, Actor, Datos, Escala, Escribania } from '../services/api-model';
+import { ActosDataService } from '../services/actos-data.service';
 
 
 @Component({

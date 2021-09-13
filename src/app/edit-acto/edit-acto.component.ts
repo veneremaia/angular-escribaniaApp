@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Acto } from '../Acto';
-import { Actor } from '../Actor';
-import { ActosDataService } from '../actos-data.service';
+import { ActosDataService } from '../services/actos-data.service';
+import { Acto, Actor } from '../services/api-model';
 
 @Component({
   selector: 'app-edit-acto',

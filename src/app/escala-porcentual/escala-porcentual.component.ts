@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ActosDataService } from '../actos-data.service';
-import { Escala } from '../Escala';
+import { ActosDataService } from '../services/actos-data.service';
+import { Escala } from '../services/api-model';
 
 @Component({
   selector: 'app-escala-porcentual',

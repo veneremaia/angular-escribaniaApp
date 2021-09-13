@@ -1,10 +1,8 @@
  import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Acto } from './Acto';
-import { Actor } from './Actor';
-import { Escala } from './Escala';
-import { Escribania } from './Escribaniadatos';
+import { Acto, Actor, Escala, Escribania } from './api-model';
+
 
 const URL_ACTOS = "https://5ff33aff28c3980017b19205.mockapi.io/acto"
 const URL_ACTORES = "https://5ff33aff28c3980017b19205.mockapi.io/actores"

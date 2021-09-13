@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActoDatosService } from './datos.service';
+import { ActoDatosService } from './services/datos.service';
 
 @Component({
   selector: 'app-root',
