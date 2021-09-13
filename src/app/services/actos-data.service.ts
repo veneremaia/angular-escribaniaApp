@@ -50,37 +50,22 @@ export class ActosDataService {
   }
 
   public updateActo(acto : Acto) : Observable<Acto>{
-    const httpOptions ={ 
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
-    return this.http.put<Acto>(URL_ACTOS+"/"+acto.id,acto,httpOptions).pipe();
+    return this.http.put<Acto>(URL_ACTOS+"/"+acto.id,acto).pipe();
   }
 
   public updateActor(actor : Actor) : Observable<Actor>{
-    const httpOptions ={ 
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
-    return this.http.put<Actor>(URL_ACTORES+"/"+actor.id,actor,httpOptions).pipe();
+    return this.http.put<Actor>(URL_ACTORES+"/"+actor.id,actor).pipe();
   }
 
   public createActo(acto : Acto) : Observable<Acto>{
-    const httpOptions ={ 
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
-    return this.http.post<Acto>(URL_ACTOS+"/",acto,httpOptions).pipe();
+    return this.http.post<Acto>(URL_ACTOS+"/",acto).pipe();
   }
   
   public createActor(actor : Actor) : Observable<Actor>{
-    const httpOptions ={ 
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
-    return this.http.post<Actor>(URL_ACTORES+"/",actor,httpOptions).pipe();
+    return this.http.post<Actor>(URL_ACTORES+"/",actor).pipe();
   }
 
   public updateDatosEscribania(escribania : Escribania) : Observable<Escribania>{
-    const httpOptions ={ 
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
-    return this.http.put<Escribania>(URL_DATOS_ESCRIBANIA+"/"+escribania.id,escribania,httpOptions).pipe();
+    return this.http.put<Escribania>(URL_DATOS_ESCRIBANIA+"/"+escribania.id,escribania).pipe();
   }
 }
