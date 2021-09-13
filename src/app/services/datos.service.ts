@@ -34,7 +34,6 @@ export class ActoDatosService {
   }
   actualizarDatos(datos: Datos) {
     this._actoList[0]=(datos);
-    console.log(this._actoList);
     this.actoList.next(this._actoList);
   }
 

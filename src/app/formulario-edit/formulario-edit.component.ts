@@ -135,7 +135,6 @@ export class FormularioEditComponent implements OnInit {
     this.cantCertificados = Number(value);
     this.datos.certificado = 0;
     this.datos.certificado= this.cantCertificados*this.escribaniaDatosApi[0].certificado;
-    console.log("Certificados: " + this.datos.certificado);
   }
  
 
@@ -148,7 +147,6 @@ export class FormularioEditComponent implements OnInit {
   setFolios(value : string) {
     this.cantFolios = Number(value);
     this.datos.folios= (this.cantFolios*2+2)*this.escribaniaDatosApi[0].folio;
-    console.log("Folios: "+this.datos.folios);
   }
 
 
@@ -157,9 +155,6 @@ export class FormularioEditComponent implements OnInit {
     this.datos.valorSello = 0;
     if(this.tieneSello)
       this.datos.valorSello=this.datos.valor*this.actoActual.p_sellos/100;
-    console.log(this.datos.valor);
-    console.log(this.actoActual.p_sellos);
-
   }
 
   calcularHonorarios(): void{
@@ -339,7 +334,6 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.listaActores.forEach(actor =>{
       this.datos.total += actor.total;
     })
-    console.log("Total totales: "+this.datos.total);
   }
 
 
