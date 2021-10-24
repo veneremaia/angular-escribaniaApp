@@ -8,63 +8,78 @@
 
   <div class="col-6" *ngFor="let actor of datosActores">
   <div class="card"  *ngFor="let dato of datosFinales">
-    <h3 class="d-flex justify-content-center">{{actor.nombre_actor}}</h3>
+    <h3 class="d-flex justify-content-center">{{actor.actor.nombre_actor}}</h3>
     <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">Concepto</th>
             <th scope="col">Valor</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="actor.sellos &&dato.valorSello!=0">
+          <tr *ngIf="actor.sello!=0&&(!isPrinted || (isPrinted&&actor.hasSello))">
             <td>Sellos</td>
-            <td>{{dato.valorSello/datosActores.length | number}}</td>
+            <td>{{actor.sello | number}}</td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkSellos($event.checked, actor.actor.id)" [checked]="actor.hasSello"></mat-checkbox></td>
           </tr>
-          <tr *ngIf="actor.aporte">
+          <tr *ngIf="actor.aporte!=0&&(!isPrinted || (isPrinted&&actor.hasAporte))">
             <td>Aportes</td>
-            <td>{{dato.aportes/datosActores.length | number}}</td>
-          </tr>  <tr *ngIf="actor.certificados">
+            <td>{{actor.aporte | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkAportes($event.checked, actor.actor.id)" [checked]="actor.hasAporte"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.certificados!=0&&(!isPrinted || (isPrinted&&actor.hasCertificados))">
             <td>Certificados</td>
-            <td>{{dato.certificado | number}}</td>
-          </tr>  <tr *ngIf="actor.municipal">
+            <td>{{actor.certificados | number}}</td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkCertificados($event.checked, actor.actor.id)" [checked]="actor.hasCertificados"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.municipal!=0&&(!isPrinted || (isPrinted&&actor.hasMunicipal))">
             <td>Municipal</td>
-            <td>{{dato.municipal | number}}</td>
-          </tr>  <tr *ngIf="actor.diligenciamiento">
+            <td>{{actor.municipal | number}}</td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkMunicipal($event.checked, actor.actor.id)" [checked]="actor.hasMunicipal"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.diligenciamiento!=0&&(!isPrinted || (isPrinted&&actor.hasDiligenciamiento))">
             <td>Diligenciamiento</td>
-            <td>{{dato.diligenciamiento | number}}</td>
-          </tr>  <tr *ngIf="actor.rcd">
+            <td>{{actor.diligenciamiento | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkDiligenciamiento($event.checked, actor.actor.id)" [checked]="actor.hasDiligenciamiento"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.rcd!=0&&(!isPrinted || (isPrinted&&actor.hasRcd))">
             <td>RCD</td>
-            <td>{{dato.rcd | number}}</td>
+            <td>{{actor.rcd | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkRcd($event.checked, actor.actor.id)" [checked]="actor.hasRcd"></mat-checkbox></td>
           </tr>
-          <tr *ngIf="actor.honorarios">
+          <tr *ngIf="actor.honorarios!=0&&(!isPrinted || (isPrinted&&actor.hasHonorarios))">
             <td>Honorarios</td>
-            <td>{{dato.honorarios | number}}</td>
-          </tr>  <tr *ngIf="actor.iva">
+            <td>{{actor.honorarios | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkHonorarios($event.checked, actor.actor.id)" [checked]="actor.hasHonorarios"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.iva!=0&&(!isPrinted || (isPrinted&&actor.hasIva))">
             <td>IVA</td>
-            <td>{{dato.iva | number}}</td>
-          </tr>  <tr *ngIf="actor.inscripcion">
+            <td>{{actor.iva | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIva($event.checked, actor.actor.id)"  [checked]="actor.hasIva"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.inscripcion!=0&&(!isPrinted || (isPrinted&&actor.hasInscripcion))">
             <td>Inscripción</td>
-            <td>{{dato.inscripcion | number}}</td>
-          </tr>  <tr *ngIf="actor.matricula">
+            <td>{{actor.inscripcion | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkInscripcion($event.checked, actor.actor.id)" [checked]="actor.hasInscripcion"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.matricula!=0&&(!isPrinted || (isPrinted&&actor.hasMatricula))">
             <td>Matricula</td>
-            <td>{{dato.matricula | number}}</td>
-          </tr>  <tr *ngIf="actor.folios">
+            <td>{{actor.matricula | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkMatricula($event.checked, actor.actor.id)" [checked]="actor.hasMatricula"></mat-checkbox></td>
+          </tr>  <tr *ngIf="actor.folios!=0&&(!isPrinted || (isPrinted&&actor.hasFolios))">
             <td>Folios</td>
-            <td>{{dato.folios | number}}</td>
+            <td>{{actor.folios | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkFolios($event.checked, actor.actor.id)" [checked]="actor.hasFolios"></mat-checkbox></td>
           </tr>
-          <tr *ngIf="actor.ganancias &&dato.valorGanancia!=0">
+          <tr *ngIf="actor.ganancias!=0&&(!isPrinted || (isPrinted&&actor.hasGanancias))">
             <td>Ganancias</td>
-            <td>{{dato.valorGanancia | number}}</td>
+            <td>{{actor.ganancias | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkGanancias($event.checked, actor.actor.id)" [checked]="actor.hasGanancias"></mat-checkbox></td>
           </tr>
-          <tr *ngIf="actor.iti &&dato.valorIti!=0">
+          <tr *ngIf="actor.iti!=0&&(!isPrinted || (isPrinted&&actor.hasIti))">
             <td>Iti</td>
-            <td>{{dato.valorIti | number}}</td>
+            <td>{{actor.iti | number}}</td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIti($event.checked, actor.actor.id)" [checked]="actor.hasIti"></mat-checkbox></td>
           </tr>
           
           <tr class="table-success">
             <td >TOTAL</td>
             <td >{{actor.total | number}}</td>
+            <td></td>
           </tr>
 
         </tbody>

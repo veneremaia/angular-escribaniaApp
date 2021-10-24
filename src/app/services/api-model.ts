@@ -28,9 +28,7 @@ export interface Actor{
     diligenciamiento: boolean;
     rcd: boolean;
     ganancias: boolean;
-    iti: boolean;
-    total: number;
-    
+    iti: boolean;    
 }
 
 export interface Escala{
@@ -65,19 +63,38 @@ export interface Datos{
     nombreActo : string;
     id_acto : number;
     valor: number;
-    valorSello: number;
     honorarios: number;
-    aportes: number;
-    iva: number;
-    certificado: number;
-    municipal: number;
-    diligenciamiento: number;
-    rcd: number;
-    inscripcion: number;
-    matricula: number;
-    folios: number;
-    valorGanancia: number;
-    valorIti: number;
     total: number;
 }
 
+
+export interface ActorEditable {
+    actor: Actor;
+    sello: number;
+    hasSello : boolean;
+    aporte: number;
+    hasAporte: boolean;
+    honorarios : number;
+    hasHonorarios: boolean;
+    iva: number;
+    hasIva: boolean;
+    inscripcion: number;
+    hasInscripcion: boolean;
+    matricula: number;
+    hasMatricula: boolean;
+    folios: number;
+    hasFolios: boolean;
+    certificados: number;
+    hasCertificados: boolean;
+    municipal: number;
+    hasMunicipal: boolean;
+    diligenciamiento: number;
+    hasDiligenciamiento: boolean;
+    rcd: number;
+    hasRcd: boolean;
+    ganancias: number;
+    hasGanancias: boolean;
+    iti: number;
+    hasIti: boolean;
+    total: number;
+}

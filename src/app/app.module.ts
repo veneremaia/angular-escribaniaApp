@@ -21,6 +21,13 @@ import { ConfiguracionActorComponent } from './configuracion-actor/configuracion
 import { EditActoComponent } from './edit-acto/edit-acto.component';
 import { CreateActoComponent } from './create-acto/create-acto.component';
 import { EscalaPorcentualComponent } from './escala-porcentual/escala-porcentual.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import {MatListModule} from '@angular/material/list';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+
 
 @NgModule({
   declarations: [
@@ -49,7 +56,12 @@ import { EscalaPorcentualComponent } from './escala-porcentual/escala-porcentual
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatTableModule,
+    MatListModule,
+    MatAutocompleteModule
 
   ],
   providers: [],

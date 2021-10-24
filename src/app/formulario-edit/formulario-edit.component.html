@@ -1,69 +1,66 @@
 <h1>{{escribaniaDatosApi[0]?.nombre}}.-</h1>
 <div class="row d-flex justify-content-between">
 <h4 class="col-6">Presupuesto.</h4>
-<h6 class="col-6 d-flex justify-content-end">{{fechaActual}}</h6>
+<h4 class="col-6 d-flex justify-content-end">{{fechaActual}}</h4>
 
 </div>
 <form  [formGroup]="formCalculador" (ngSubmit)="calcular()" *ngIf="!isPrinted" class="row g-3">
+<div class="col-8">
+  <mat-form-field class="col-12" appearance="fill">
+    <mat-label>Cliente</mat-label>
+    <input type="text" formControlName="nombreCliente" id="inputNombreCliente" required matInput placeholder="Ingrese nombre de cliente">
+  </mat-form-field>
+
+    <mat-form-field  class="col-md-12  mt-2" appearance="fill">
+    <mat-label>Acto</mat-label>
+    <input type="text"
+    placeholder="Seleccione acto"
+    aria-label="Acto"
+    matInput
+    formControlName="acto"
+    [matAutocomplete]="auto">
+
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option   *ngFor="let acto of filteredOptions | async" id={{acto.id}} required [value]="acto.nombre_acto">
+        {{acto.nombre_acto}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field class="col-12 mt-2" appearance="fill">
+    <mat-label>Valor</mat-label>
+    <input type="number" formControlName="valor" id="inputValor" required matInput placeholder="Ingrese valor">
+  </mat-form-field>
+
+  <mat-form-field class="col-4 mt-2" appearance="fill">
+    <mat-label>Certificados</mat-label>
+    <input type="number" formControlName="certificados" id="inputCertificados" required matInput placeholder="Certificados">
+  </mat-form-field>
+
+
+  <mat-form-field class="col-4 mt-2" appearance="fill">
+    <mat-label>Municipal</mat-label>
+    <input type="number" formControlName="municipal" id="inputMunicipales" required matInput placeholder="Municipal">
+  </mat-form-field>
+
+  <mat-form-field class="col-4 mt-2" appearance="fill">
+    <mat-label>Folios</mat-label>
+    <input type="number" formControlName="folios" id="inputFolios" required matInput placeholder="Folios">
+    <mat-hint>No incluir duplicados</mat-hint>
+  </mat-form-field>
+
   <div class="col-12">
-      <input type="text" formControlName="nombreCliente" placeholder="Ingrese nombre de cliente" class="form-control" id="inputNombreCliente" >
-  </div>
-  <div class="col-md-12  mt-2">
-    <label for="inputEmail4" class="form-label">Acto</label>
-    <select formControlName="acto" id="acto" class="form-control" >
-      <option selected disabled>Seleccione el acto</option>
-      <option  *ngFor="let acto of actosApi" value={{acto.id}} id={{acto.id}}>{{acto.nombre_acto}}</option>
-      
-    </select>  </div>
-    <div class="col-12  mt-2">
-      <label for="inputAddress" class="form-label">Valor</label>
-      <input formControlName="valor" type="number" placeholder="Valor" class="form-control" id="inputValor" >
-    </div>
-  
-  <div class="col-md-4  mt-2">
-    <label for="inputPassword4" class="form-label">Certificados</label>
-    <input  formControlName="certificados" type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados">
-  </div>
-
-  <div class="col-md-4 mt-2">
-    <label for="inputPassword4" class="form-label">Municipal</label>
-    <input formControlName="municipal" type="number" placeholder="Cant. certificados" class="form-control" id="inputCertificados" >
-  </div>
-
-  <div class="col-6  mt-2">
-    <label for="inputAddress" class="form-label">Folios</label>
-    <input  formControlName="folios" type="number" placeholder="Cantidad de folios" class="form-control" id="inputFolios">
-    <p *ngIf="!isPrinted" class="exclusion-text ml-2">No incluir duplicados</p>
-
-  </div>
-  <div class="col-8">
-  <div class="form-check col-4">
-    <input formControlName="sellos" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault1">
-    <label class="form-check-label" for="flexCheckDefault1">
-      Sellos
-    </label>
-  </div>
-
-  <div class="form-check col-4">
-    <input formControlName="ganancias" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault2">
-    <label class="form-check-label" for="flexCheckDefault2">
-      Ganancias
-    </label>
-  </div>
-
-  <div class="form-check col-4">
-    <input  formControlName="iti" class="form-check-input"  type="checkbox" value="" id="flexCheckDefault3">
-    <label class="form-check-label" for="flexCheckDefault3">
-      Iti
-    </label>
-  </div>
+  <mat-checkbox formControlName="sellos">Sellos</mat-checkbox>
+</div>
+<div class="col-12">
+  <mat-checkbox formControlName="ganancias">Ganancias</mat-checkbox>
+  <div class="col-12">
+</div>
+  <mat-checkbox formControlName="iti">Iti</mat-checkbox>
 </div>
 
-
-
-  <div class="col-12 mt-3">
-    <button type="submit"  class="col-4 btn btn-primary btn-lg btn-block btn-info">Calcular</button>
-  </div>
+    <button mat-raised-button color="primary" type="submit"  class="col-12">Calcular</button>
+</div>
 </form>
 
 

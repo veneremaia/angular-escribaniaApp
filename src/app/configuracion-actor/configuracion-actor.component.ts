@@ -28,8 +28,7 @@ export class ConfiguracionActorComponent implements OnInit {
     "diligenciamiento" : false,
     "rcd": false,
     "ganancias": false,
-    "iti": false,
-    "total": 0
+    "iti": false
   };
 
   // acto desde API

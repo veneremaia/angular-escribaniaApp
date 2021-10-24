@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActoDatosService } from '../services/datos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Acto, Actor, Datos, Escala, Escribania } from '../services/api-model';
+import { Acto, Actor, ActorEditable, Datos, Escala, Escribania } from '../services/api-model';
 import { ActosDataService } from '../services/actos-data.service';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
 
 
 @Component({
@@ -36,25 +39,16 @@ export class FormularioEditComponent implements OnInit {
 
   });
 
+  //Listado de actores segun acto elegido
+  actoresSelected!: ActorEditable[];
+
   // Dato final que mostraremos en resultados
   datos : Datos  = {
     nombreCliente: '',
     nombreActo: '',
     id_acto : 0,
     valor: 0,
-    valorSello: 0,
     honorarios: 0,
-    aportes: 0,
-    iva: 0,
-    certificado: 0,
-    municipal: 0,
-    diligenciamiento: 0,
-    rcd: 0,
-    inscripcion: 0,
-    matricula: 0,
-    folios: 0,
-    valorGanancia: 0,
-    valorIti: 0, 
     total: 0
   };
   
@@ -87,6 +81,7 @@ export class FormularioEditComponent implements OnInit {
   // isPrinted a actualizar en el service
   isPrinted : boolean = false;
 
+  filteredOptions: Observable<Acto[]> | undefined;
   constructor(private actoService: ActoDatosService,
     private actosDataService: ActosDataService) { 
       var dd = String(this.today.getDate()).padStart(2, '0');
@@ -110,6 +105,7 @@ export class FormularioEditComponent implements OnInit {
       })}
       );
     
+
     // traigo la escala porcentual de la api
     this.actosDataService.getAllEscalas()
     .subscribe(escala =>this.escalaPorcentualApi = escala);
@@ -123,6 +119,11 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.isShowed.subscribe(b =>this.isShowed=b);
     // traigo el dato de si se esta en modo imprimir
     this.actoService.isPrinted.subscribe(b =>this.isPrinted=b);
+
+    this.filteredOptions = this.formCalculador.controls.acto.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
   goToForm() : void{
@@ -130,97 +131,170 @@ export class FormularioEditComponent implements OnInit {
     this.actoService.actualizarIsPrinted(this.isPrinted);
   }
 
+  _filter(value: any): Acto[] {
+    const filterValue = value.toLowerCase();
 
+    return this.actosApi.filter(option => option.nombre_acto.toLowerCase().includes(filterValue));
+  }
+
+  // Setear certificados a todos los actores
   setCertificados(value : string) {
     this.cantCertificados = Number(value);
-    this.datos.certificado = 0;
-    this.datos.certificado= this.cantCertificados*this.escribaniaDatosApi[0].certificado;
+    this.actoresSelected.forEach(actor => {
+      if(actor.actor.certificados){
+        // todo el valor
+        actor.certificados = this.cantCertificados*this.escribaniaDatosApi[0].certificado;
+        actor.hasCertificados = true;      
+    }
+  });
   }
  
-
+  // Setear municipal a todos los actores
   setCertificadosMunicipal(value : string) {
-    this.datos.municipal = 0;
     this.cantMunicipal = Number(value);
-    this.datos.municipal = this.cantMunicipal*this.escribaniaDatosApi[0].imp_municipal;
+    this.actoresSelected.forEach(actor => {
+      if(actor.actor.municipal){
+        // todo el valor
+        actor.municipal = this.cantMunicipal*this.escribaniaDatosApi[0].imp_municipal;
+        actor.hasMunicipal = true;      
+    }
+  });
   }
 
+  // Setear folios a todos los actores
   setFolios(value : string) {
     this.cantFolios = Number(value);
-    this.datos.folios= (this.cantFolios*2+2)*this.escribaniaDatosApi[0].folio;
+    this.actoresSelected.forEach(actor => {
+      if(actor.actor.folios){
+        // todo el valor
+        actor.folios = (this.cantFolios*2+2)*this.escribaniaDatosApi[0].folio;
+        actor.hasFolios = true;      
+    }
+  });
   }
 
 
-
+  // Setear valor de sello a los actores
   calcularSello() : void {
-    this.datos.valorSello = 0;
-    if(this.tieneSello)
-      this.datos.valorSello=this.datos.valor*this.actoActual.p_sellos/100;
-  }
-
-  calcularHonorarios(): void{
-    this.datos.honorarios = 0;
-    if(this.actoActual.p_honorarios<0){
-      // Si el valor de escritura es menor o igual al minimo puesto por la escala porcentual de honorarios
-      if(this.datos.valor<=this.escribaniaDatosApi[0].min_valor_escritura_he)
-        this.datos.honorarios = this.escribaniaDatosApi[0].min_valor_honorario_escala;
-      else{
-        let excedente = this.datos.valor - this.escribaniaDatosApi[0].min_valor_escritura_he;
-        this.datos.honorarios = this.escribaniaDatosApi[0].min_valor_escritura_he + (excedente*this.escribaniaDatosApi[0].p_honorario_escala_exedente);
+    if(this.tieneSello){
+      let cant = 0;
+      this.actoresSelected.forEach(actor=>{
+        if(actor.actor.sellos)
+        cant++;
+      });
+      if(cant!=0){
+        this.actoresSelected.forEach(actor=>{
+          if(actor.actor.sellos){
+          actor.sello = (this.datos.valor*this.actoActual.p_sellos/100)/cant;
+          actor.hasSello = true;
+        
+        }})
       }
-
-
-    }
-    else{
-
-    if(this.datos.valor*this.actoActual.p_honorarios/100>this.actoActual.min_honorarios)
-    this.datos.honorarios= this.datos.valor*this.actoActual.p_honorarios/100;
-    else
-    this.datos.honorarios=this.actoActual.min_honorarios;
     }
   }
 
+  // Calcular honorarios
+  calcularHonorarios(): void{
+
+    this.actoresSelected.forEach(actor => {
+      // si le corresponde pagar honorarios
+      if(actor.actor.honorarios){
+        actor.hasHonorarios = true;
+        if(this.actoActual.p_honorarios<0){
+          // por escala
+          // Si el valor de escritura es menor o igual al minimo puesto por la escala porcentual de honorarios
+          if(this.datos.valor<=this.escribaniaDatosApi[0].min_valor_escritura_he){
+            // Se setea el minimo establecido
+          actor.honorarios = this.escribaniaDatosApi[0].min_valor_honorario_escala;    
+          }else{
+            // Se setea el minimo establecido mas el excedente
+            let excedente = this.datos.valor - this.escribaniaDatosApi[0].min_valor_escritura_he;
+            actor.honorarios = this.escribaniaDatosApi[0].min_valor_honorario_escala + (excedente*this.escribaniaDatosApi[0].p_honorario_escala_exedente);
+          }
+    
+        }else{
+          // Sin escala
+          // Si es mayor al minimo de honorarios establecido por el acto
+          if(this.datos.valor*this.actoActual.p_honorarios/100>this.actoActual.min_honorarios)
+          actor.honorarios= this.datos.valor*this.actoActual.p_honorarios/100;
+          else
+          actor.honorarios=this.actoActual.min_honorarios;
+          }
+      }
+      this.datos.honorarios = actor.honorarios;
+    });
+  }
+
+  // Calcular iva
   calcularIva(): void{
-    this.datos.iva= this.datos.honorarios*21/100;
+    this.actoresSelected.forEach(actor => {
+      if(actor.actor.iva){
+        actor.hasIva = true;
+        actor.iva= this.datos.honorarios*21/100;
+      }
+    });
   }
-
+  // Calcular diligenciamiento
   calcularDiligenciamiento() : void{
-    if(this.datos.valor<this.escribaniaDatosApi[0].min_valor_diligenciamiento)
-      this.datos.diligenciamiento=this.escribaniaDatosApi[0].min_diligenciamiento;
-    else{
-      let excedente: number = this.datos.valor-this.escribaniaDatosApi[0].min_valor_diligenciamiento;
-      this.datos.diligenciamiento=(excedente/1000)*2+this.escribaniaDatosApi[0].min_diligenciamiento;
-    }
+    this.actoresSelected.forEach(actor => {
+      if(actor.actor.diligenciamiento){
+        actor.hasDiligenciamiento = true;
+        if(this.datos.valor<this.escribaniaDatosApi[0].min_valor_diligenciamiento)
+          actor.diligenciamiento=this.escribaniaDatosApi[0].min_diligenciamiento;
+        else{
+          let excedente: number = this.datos.valor-this.escribaniaDatosApi[0].min_valor_diligenciamiento;
+          actor.diligenciamiento=(excedente/1000)*2+this.escribaniaDatosApi[0].min_diligenciamiento;
+      }
+      }
+    });
   }
-
+  // Calcular inscripcion
   calcularInscripcion(): void {
-    this.datos.inscripcion = this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
+    this.actoresSelected.forEach(actor => {
+      // si le corresponde pagar inscripcion
+      if(actor.actor.inscripcion){
+        actor.hasInscripcion = true;
+        actor.inscripcion= this.datos.valor*0.002+this.escribaniaDatosApi[0].gestor;
+      }
+    });
   }
 
+  // Calcular aportes
 calcularAporte(){
-  // Busca en toda la escala la fila quede entre max y min del honorario
-  if(this.actoActual.p_aportes<0){
-    let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
-    let escala = this.escalaPorcentualApi[indiceEscala];
-    this.datos.aportes = this.escalaPorcentualApi[indiceEscala].aporte_fijo;
-    if(escala.aporte_fijo==0)
-      this.datos.aportes = this.datos.honorarios*escala.porcentaje_excedente/100;
-    if((this.datos.honorarios > escala.min)&&(escala.min>0)){
-      let excedente = this.datos.honorarios - escala.min;
-      this.datos.aportes += (excedente*escala.porcentaje_excedente/100);    
+    let cant = 0;
+    this.actoresSelected.forEach(actor=>{
+      if(actor.actor.aporte)
+      cant++;
+    });
+    if(cant!=0){
+      this.actoresSelected.forEach(actor=>{
+        if(actor.actor.aporte){
+          actor.hasAporte=true;
+          // Busca en toda la escala la fila quede entre max y min del honorario
+          if(this.actoActual.p_aportes<0){
+            let indiceEscala = this.getEscalaPorcentual(this.datos.honorarios);
+            let escala = this.escalaPorcentualApi[indiceEscala];
+            actor.aporte = escala.aporte_fijo;
+            //si el aporte fijo es igual a cero es la primera
+            if(escala.aporte_fijo==0)
+            actor.aporte = this.datos.honorarios*escala.porcentaje_excedente/100;
+            if((this.datos.honorarios > escala.min)&&(escala.min>0)){
+              let excedente = this.datos.honorarios - escala.min;
+              actor.aporte += (excedente*escala.porcentaje_excedente/100);    
+            }
+            if(this.actoActual.p_aportes==-2){
+              actor.aporte = actor.aporte/2;
+            }
+        }
+        else{
+          //No posee escala porcentual
+          if(this.datos.valor*this.actoActual.p_aportes>=this.actoActual.min_aportes)
+          actor.aporte = this.datos.valor*this.actoActual.p_aportes;
+          else
+          actor.aporte = this.actoActual.min_aportes;
+        }
+      }})
     }
-    if(this.actoActual.p_aportes==-2){
-      this.datos.aportes = this.datos.aportes/2;
-    }
-}
-else{
-  console.log("No posee escala porcentual")
-  if(this.datos.valor*this.actoActual.p_aportes>=this.actoActual.min_aportes)
-    this.datos.aportes = this.datos.valor*this.actoActual.p_aportes;
-  else
-    this.datos.aportes = this.actoActual.min_aportes;
-  
-}
-
 }
 
 getEscalaPorcentual(valorHonorario : number) : number{
@@ -230,61 +304,72 @@ getEscalaPorcentual(valorHonorario : number) : number{
   }
   return 0;
 } 
-
+  // Calcular rcd
   calcularRcd(): void{
-    if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
-      this.datos.rcd=this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100;
-    else
-      this.datos.rcd=this.escribaniaDatosApi[0].min_rcd;
-  }
-
-  calcularGanancias() : void{
-    this.datos.valorGanancia = 0;
-    if(this.tieneGanancia)
-    this.datos.valorGanancia=this.datos.valor*this.actoActual.p_ganancias/100;
-  }
-
-  calcularIti() : void{
-    this.datos.valorIti = 0;
-    if(this.tieneIti)
-    this.datos.valorIti=this.datos.valor*this.actoActual.p_iti/100;
-  }
-
-  getPosActorById(id: number) : number{
-    for(let i=0; i<this.listaActores.length;i++){
-      if(this.listaActores[i].id==id)
-      return i;
+    this.actoresSelected.forEach(actor=>{
+      if(actor.actor.rcd){
+        actor.hasRcd = true;
+        if(this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100>this.escribaniaDatosApi[0].min_rcd)
+         actor.rcd=this.datos.valor*this.escribaniaDatosApi[0].p_rcd/100;
+        else
+          actor.rcd=this.escribaniaDatosApi[0].min_rcd;
+      }})
     }
-    return 0;
+
+  // Calcular ganancia 
+  calcularGanancias() : void{
+    if(this.tieneGanancia){
+        this.actoresSelected.forEach(actor=>{
+          if(actor.actor.ganancias){
+          actor.ganancias = this.datos.valor*this.actoActual.p_ganancias/100;
+          actor.hasGanancias = true;
+          }
+        })
+    }
   }
 
-  calculcarTotalActor(actorId: number) : void{
+  // Calcular iti
+  calcularIti() : void{
+    if(this.tieneIti){
+      this.actoresSelected.forEach(actor=>{
+        if(actor.actor.iti){
+        actor.iti = this.datos.valor*this.actoActual.p_iti/100;
+        actor.hasIti = true;
+        }
+      })
+  }
+  }
+  // Calcular matricula
+  calcularMatricula(): void{
+      this.actoresSelected.forEach(actor=>{
+        if(actor.actor.matricula){
+        actor.matricula = this.escribaniaDatosApi[0].matricula;
+        actor.hasMatricula = true;
+        }
+      })
+  }
+
+  // Actualizar total actores
+  calculcarTotalActor() : void{
     this.actoService.eliminarActores();
-    let total =0;
-    let id = this.getPosActorById(actorId);
-    if(this.listaActores[id].sellos) total+=this.datos.valorSello/this.listaActores.length;
-    if(this.listaActores[id].certificados) total+=this.datos.certificado;
-    if(this.listaActores[id].municipal) total+=this.datos.municipal;
-    if(this.listaActores[id].diligenciamiento) total+=this.datos.diligenciamiento;
-    if(this.listaActores[id].rcd) total+=this.datos.rcd;
-    if(this.listaActores[id].honorarios) total+=this.datos.honorarios;
-    if(this.listaActores[id].aporte) total+=this.datos.aportes/this.listaActores.length;
-
-    if(this.listaActores[id].iva) total+=this.datos.iva;
-    if(this.listaActores[id].inscripcion) total+=this.datos.inscripcion;
-    if(this.listaActores[id].matricula) total+=this.datos.matricula;
-    if(this.listaActores[id].folios) total+=this.datos.folios;
-    if(this.listaActores[id].iti) total+=this.datos.valorIti;
-    if(this.listaActores[id].ganancias) total+=this.datos.valorGanancia;
-
-    this.listaActores[id].total=total;
-
+    this.actoresSelected.forEach(actor => {
+      actor.total = actor.sello +
+      actor.aporte + actor.honorarios + 
+      actor.iva + actor.inscripcion + 
+      actor.matricula + actor.folios + 
+      actor.certificados + actor.municipal + 
+      actor.diligenciamiento + actor.rcd + 
+      actor.ganancias + actor.iti; 
+    })
   }
-
+  // Actualizar datos
   actualizarDatos(datos : Datos){
     this.actoService.actualizarDatos(datos);
   }
+
+
   calcular(){
+    if(this.formCalculador.valid){
     this.actoService.eliminarActores();
     this.actoService.eliminarDatos();
     this.listaActores = [];
@@ -292,64 +377,126 @@ getEscalaPorcentual(valorHonorario : number) : number{
     this.datos.total = 0;
     //Datos del formulario
     this.datos.nombreCliente= this.formCalculador.value.nombreCliente;
-    this.actoActual = this.getActoById(this.formCalculador.value.acto);
+    this.actoActual = this.getActoByName(this.formCalculador.value.acto);
+    // Obtener los actores del acto
+    this.createActoresByActo();
     this.datos.valor= this.formCalculador.value.valor;
+    // Calcula los certificados de cada actor involucrado
     this.setCertificados(this.formCalculador.value.certificados);
+    // Calcula el municipal
     this.setCertificadosMunicipal(this.formCalculador.value.municipal);
+    // Calcular folios
     this.setFolios(this.formCalculador.value.folios);
+
     this.tieneSello = (this.formCalculador.value.sellos==true) ? true : false;
     this.tieneGanancia = (this.formCalculador.value.ganancias==true) ? true : false;
     this.tieneIti = (this.formCalculador.value.iti==true) ? true : false;
-    
-
     this.actoService.actualizarIsShowed(this.isShowed)
-
     this.datos.nombreActo = this.actoActual.nombre_acto;
     this.datos.id_acto = this.actoActual.id
-    this.setActores(this.datos.id_acto);
-
-    this.datos.matricula = this.escribaniaDatosApi[0].matricula;
+    this.calcularMatricula();
+    // Calcular sello a todos los actores involucrados
     this.calcularSello(); // difiere x acto
+    // Calcular ganancias a todos los actores
     this.calcularGanancias(); // 3%
+    // Calcular iti a todos los actores
     this.calcularIti(); // 1.5%
+    // Calcular honorarios
     this.calcularHonorarios(); // difiere x acto
+    // Calcular iva
     this.calcularIva(); //siempre es el 21%
+    // Calcular aporte
     this.calcularAporte(); // difiere x acto
+    // Calcular rcd
     this.calcularRcd(); // lo configura la escribania
-    this.calcularInscripcion(); // 
+    // Calcular inscripcion
+    this.calcularInscripcion(); 
+    // Calcular diligenciamiento
     this.calcularDiligenciamiento(); // lo configura la escribania esta en tabla
-    this.listaActores.forEach(actor => {
-      this.calculcarTotalActor(actor.id);
-    });
+    // Calcular total de cada actor
+    this.calculcarTotalActor();
+    // Calcular total
     this.calcularTotal();
+    // Actualizar datos
     this.actualizarDatos(this.datos);
 
     this.actualizarActores();
     this.isShowed = true;
     this.actoService.actualizarIsShowed(this.isShowed)
-
+  }
   }
 
+  // Sirve para el filtro
+  getActoByName(nameActo: String): Acto {
+      return this.actosApi.find(a => a.nombre_acto.toLocaleLowerCase() == nameActo.toLocaleLowerCase())!;
+     
+  }
+
+  // Crear actores by acto elegido
+  createActoresByActo (){
+    // Limpiar actores anteriores
+    this.actoService.eliminarActores();
+    this.actoresSelected = [];
+    // Traer nuevos actores segun acto
+    this.setActores(this.actoActual.id);
+    this.listaActores.forEach(actor => {
+      let actorEditable : ActorEditable =  {
+        actor: actor,
+        sello: 0,
+        hasSello : false,
+        aporte: 0,
+        hasAporte: false,
+        honorarios : 0,
+        hasHonorarios: false,
+        iva:0,
+        hasIva: false,
+        inscripcion: 0,
+        hasInscripcion: false,
+        matricula: 0,
+        hasMatricula: false,
+        folios: 0,
+        hasFolios: false,
+        certificados:0,
+        hasCertificados: false,
+        municipal:0,
+        hasMunicipal: false,
+        diligenciamiento: 0,
+        hasDiligenciamiento: false,
+        rcd: 0,
+        hasRcd: false,
+        ganancias:0,
+        hasGanancias: false,
+        iti: 0,
+        hasIti: false,
+        total: 0
+      }
+      this.actoresSelected.push(Object.assign({}, actorEditable));
+      
+    });
+  }
+  // Calcular total
   calcularTotal (){
-    this.listaActores.forEach(actor =>{
+    this.actoresSelected.forEach(actor =>{
       this.datos.total += actor.total;
     })
   }
 
-
+  // Actualizar actores
   actualizarActores(){
     this.actoService.eliminarActores();
-    this.listaActores.forEach(actor => {
+    this.actoresSelected.forEach(actor => {
       this.actoService.actualizarActores(actor);
     });
   }
+
+  // Trae los actores de la api segun el acto
   setActores(idActo: number): void{
       this.listaActoresApi.forEach(actor => {
         if(actor.id_acto==idActo)
         this.listaActores.push(actor);
       });
   }
-
+  // Trae el acto segun el id
   getActoById(id : any) : any{
    return this.actosApi.find(a => a.id==id);
   }

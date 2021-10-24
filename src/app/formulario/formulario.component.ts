@@ -1,5 +1,4 @@
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({

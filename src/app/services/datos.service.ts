@@ -1,7 +1,6 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, fromEventPattern } from 'rxjs';
-import { Actor, Datos } from './api-model';
+import { BehaviorSubject } from 'rxjs';
+import { ActorEditable, Datos } from './api-model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,12 @@ export class ActoDatosService {
   private _isShowed : boolean = false;
   private _isPrinted : boolean = false;
   private _actoList : Datos[] = [];
-  private _actoresList : Actor[] = [];
+  private _actoresList : ActorEditable[] = [];
 
   // Observable
   actoList : BehaviorSubject<Datos[]> = new BehaviorSubject<Datos[]>([]);
 
-  actoresList : BehaviorSubject<Actor[]> = new BehaviorSubject<Actor[]>([]);
+  actoresList : BehaviorSubject<ActorEditable[]> = new BehaviorSubject<ActorEditable[]>([]);
   isShowed : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isPrinted : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -37,7 +36,7 @@ export class ActoDatosService {
     this.actoList.next(this._actoList);
   }
 
-  actualizarActores(actor: Actor) {
+  actualizarActores(actor: ActorEditable) {
     this._actoresList.push(actor);
     this.actoresList.next(this._actoresList);
   }
