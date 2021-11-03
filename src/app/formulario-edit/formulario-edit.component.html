@@ -11,22 +11,41 @@
     <input type="text" formControlName="nombreCliente" id="inputNombreCliente" required matInput placeholder="Ingrese nombre de cliente">
   </mat-form-field>
 
-    <mat-form-field  class="col-md-12  mt-2" appearance="fill">
-    <mat-label>Acto</mat-label>
-    <input type="text"
-    placeholder="Seleccione acto"
-    aria-label="Acto"
-    matInput
-    formControlName="acto"
-    [matAutocomplete]="auto">
+  <div class="container">
+    <div class="row d-flex justify-content-between">
+    <h3 class="col-3">Actos</h3>
+    <button class="col-2" mat-icon-button color="accent" type="button" title="Nuevo acto" (click)="addNewItem()">
+      <mat-icon>add</mat-icon> Añadir
+    </button>
+  </div>
+    <div formArrayName="actosArray" *ngFor="let actoForm of formCalculador.get('actosArray').controls; let i = index;">
+      <ng-container [formGroupName]="i">
+      
 
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option   *ngFor="let acto of filteredOptions | async" id={{acto.id}} required [value]="acto.nombre_acto">
-        {{acto.nombre_acto}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+        <mat-form-field  class="col-md-10  mt-2" appearance="fill">
+          <mat-label>Acto</mat-label>
+          <input type="text"
+          placeholder="Seleccione acto"
+          aria-label="Acto"
+          matInput
+          formControlName="acto"
+          [matAutocomplete]="auto">
+      
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option   *ngFor="let acto of filteredOptions[i] | async" id={{acto.id}} required [value]="acto.nombre_acto">
+              {{acto.nombre_acto}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
+        <button mat-icon-button color="primary" type="button" title="Eliminar" (click)="removeItem(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+      </ng-container>
+    </div>
+  </div>
+  
   <mat-form-field class="col-12 mt-2" appearance="fill">
     <mat-label>Valor</mat-label>
     <input type="number" formControlName="valor" id="inputValor" required matInput placeholder="Ingrese valor">
@@ -64,15 +83,17 @@
 </form>
 
 
-<div class="list mt-5" *ngIf="isPrinted">
-<p class="h4 mb-3"><em>{{datos.nombreCliente}}</em></p>
-<p class="h5">{{actoActual.nombre_acto}}</p>
-<p class="h6">Valor  ${{datos.valor}}</p>
+<div  *ngIf="isPrinted">
+  <div class="list mt-5">
+  
+<p class="h4 mb-3"><em>{{actosActores[0].datos.nombreCliente}}</em></p>
+<p class="h5">{{listaActos}}</p>
+<p class="h6">Valor  ${{actosActores[0].datos.valor}}</p>
 <p class="h6" *ngIf="cantCertificados>0">Certicados : {{cantCertificados}}</p>
 <p class="h6" *ngIf="cantFolios>0">Folios : {{cantFolios}}</p>
 <p class="h6" *ngIf="tieneSello">Paga sellos</p>
 <p class="h6" *ngIf="tieneGanancia">Paga ganancias</p>
 <p class="h6" *ngIf="tieneIti">Paga iti</p>
 
-
+</div>
 </div>

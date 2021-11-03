@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ActorEditable, Datos } from './api-model';
+import { ActoActores } from './api-model';
 
 @Injectable({
   providedIn: 'root'
 })
 
-
-
 export class ActoDatosService {
   private _isShowed : boolean = false;
   private _isPrinted : boolean = false;
-  private _actoList : Datos[] = [];
-  private _actoresList : ActorEditable[] = [];
+  private _actosActores : ActoActores[] = [];
+  private _total : number = 0;
 
-  // Observable
-  actoList : BehaviorSubject<Datos[]> = new BehaviorSubject<Datos[]>([]);
-
-  actoresList : BehaviorSubject<ActorEditable[]> = new BehaviorSubject<ActorEditable[]>([]);
   isShowed : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isPrinted : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  actosActores : BehaviorSubject<ActoActores[]> = new BehaviorSubject<ActoActores[]>([]);
+  total : BehaviorSubject<number> = new BehaviorSubject<number>(this._total);
   constructor() { }
 
   actualizarIsShowed(isShowed : boolean){
@@ -31,24 +26,24 @@ export class ActoDatosService {
     this._isPrinted = isPrinted;
     this.isPrinted.next(this._isPrinted);
   }
-  actualizarDatos(datos: Datos) {
-    this._actoList[0]=(datos);
-    this.actoList.next(this._actoList);
+
+  actualizarTotal(total : number){
+    this._total = total;
+    this.total.next(this._total);
   }
 
-  actualizarActores(actor: ActorEditable) {
-    this._actoresList.push(actor);
-    this.actoresList.next(this._actoresList);
-  }
-  
-  eliminarActores(){
-    this._actoresList.splice(0,this._actoresList.length);
-    this.actoresList.next(this._actoresList);
- }
-
-  eliminarDatos(){
-    this._actoList.splice(0,this._actoList.length);
-    this.actoList.next(this._actoList);
+  limpiarTotal(){
+    this._total = 0;
+    this.total.next(this._total);
   }
 
+  actualizarActosActores(actosActores : ActoActores[]){
+    this._actosActores = actosActores;
+    this.actosActores.next(this._actosActores);
+  }
+
+  eliminarActosActores(){
+    this._actosActores.splice(0,this._actosActores.length);
+    this.actosActores.next(this._actosActores);
+  }
 }

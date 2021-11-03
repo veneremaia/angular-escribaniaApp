@@ -1,13 +1,16 @@
-<div *ngIf="datosFinales[0]" class="contenedor-view container">
+<div *ngIf="total!=0" class="contenedor-view container">
   <div class="col-12 d-flex justify-content-end">
     <button *ngIf="!isPrinted" type="button" (click)="clickModoImprimir()" class="mb-3 col-1 btn btn-outline-secondary btn-lg btn-block"><span class="material-icons">
       local_printshop
       </span></button>
   </div>
-<div class="row d-flex justify-content-between align-items-end ">
+  <div *ngFor="let actoActores of actosActores;  let i = index;">
+    <h2>{{actoActores.datos.acto.nombre_acto}}</h2>
 
-  <div class="col-6" *ngFor="let actor of datosActores">
-  <div class="card"  *ngFor="let dato of datosFinales">
+
+  <div class="row d-flex justify-content-between align-items-end ">
+  
+  <div class="col-6" *ngFor="let actor of actoActores.actores">
     <h3 class="d-flex justify-content-center">{{actor.actor.nombre_actor}}</h3>
     <table class="table table-hover">
         <thead>
@@ -21,59 +24,59 @@
           <tr *ngIf="actor.sello!=0&&(!isPrinted || (isPrinted&&actor.hasSello))">
             <td>Sellos</td>
             <td>{{actor.sello | number}}</td>
-            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkSellos($event.checked, actor.actor.id)" [checked]="actor.hasSello"></mat-checkbox></td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkSellos($event.checked,i, actor.actor.id)" [checked]="actor.hasSello"></mat-checkbox></td>
           </tr>
           <tr *ngIf="actor.aporte!=0&&(!isPrinted || (isPrinted&&actor.hasAporte))">
             <td>Aportes</td>
             <td>{{actor.aporte | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkAportes($event.checked, actor.actor.id)" [checked]="actor.hasAporte"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkAportes($event.checked,i, actor.actor.id)" [checked]="actor.hasAporte"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.certificados!=0&&(!isPrinted || (isPrinted&&actor.hasCertificados))">
             <td>Certificados</td>
             <td>{{actor.certificados | number}}</td>
-            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkCertificados($event.checked, actor.actor.id)" [checked]="actor.hasCertificados"></mat-checkbox></td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkCertificados($event.checked,i, actor.actor.id)" [checked]="actor.hasCertificados"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.municipal!=0&&(!isPrinted || (isPrinted&&actor.hasMunicipal))">
             <td>Municipal</td>
             <td>{{actor.municipal | number}}</td>
-            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkMunicipal($event.checked, actor.actor.id)" [checked]="actor.hasMunicipal"></mat-checkbox></td>
+            <td><mat-checkbox  *ngIf="!isPrinted" (change)="checkMunicipal($event.checked,i, actor.actor.id)" [checked]="actor.hasMunicipal"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.diligenciamiento!=0&&(!isPrinted || (isPrinted&&actor.hasDiligenciamiento))">
             <td>Diligenciamiento</td>
             <td>{{actor.diligenciamiento | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkDiligenciamiento($event.checked, actor.actor.id)" [checked]="actor.hasDiligenciamiento"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkDiligenciamiento($event.checked,i, actor.actor.id)" [checked]="actor.hasDiligenciamiento"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.rcd!=0&&(!isPrinted || (isPrinted&&actor.hasRcd))">
             <td>RCD</td>
             <td>{{actor.rcd | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkRcd($event.checked, actor.actor.id)" [checked]="actor.hasRcd"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkRcd($event.checked,i, actor.actor.id)" [checked]="actor.hasRcd"></mat-checkbox></td>
           </tr>
           <tr *ngIf="actor.honorarios!=0&&(!isPrinted || (isPrinted&&actor.hasHonorarios))">
             <td>Honorarios</td>
             <td>{{actor.honorarios | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkHonorarios($event.checked, actor.actor.id)" [checked]="actor.hasHonorarios"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkHonorarios($event.checked,i, actor.actor.id)" [checked]="actor.hasHonorarios"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.iva!=0&&(!isPrinted || (isPrinted&&actor.hasIva))">
             <td>IVA</td>
             <td>{{actor.iva | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIva($event.checked, actor.actor.id)"  [checked]="actor.hasIva"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIva($event.checked,i, actor.actor.id)"  [checked]="actor.hasIva"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.inscripcion!=0&&(!isPrinted || (isPrinted&&actor.hasInscripcion))">
             <td>Inscripción</td>
             <td>{{actor.inscripcion | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkInscripcion($event.checked, actor.actor.id)" [checked]="actor.hasInscripcion"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkInscripcion($event.checked,i, actor.actor.id)" [checked]="actor.hasInscripcion"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.matricula!=0&&(!isPrinted || (isPrinted&&actor.hasMatricula))">
             <td>Matricula</td>
             <td>{{actor.matricula | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkMatricula($event.checked, actor.actor.id)" [checked]="actor.hasMatricula"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkMatricula($event.checked,i, actor.actor.id)" [checked]="actor.hasMatricula"></mat-checkbox></td>
           </tr>  <tr *ngIf="actor.folios!=0&&(!isPrinted || (isPrinted&&actor.hasFolios))">
             <td>Folios</td>
             <td>{{actor.folios | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkFolios($event.checked, actor.actor.id)" [checked]="actor.hasFolios"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkFolios($event.checked,i,actor.actor.id)" [checked]="actor.hasFolios"></mat-checkbox></td>
           </tr>
           <tr *ngIf="actor.ganancias!=0&&(!isPrinted || (isPrinted&&actor.hasGanancias))">
             <td>Ganancias</td>
             <td>{{actor.ganancias | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkGanancias($event.checked, actor.actor.id)" [checked]="actor.hasGanancias"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkGanancias($event.checked,i, actor.actor.id)" [checked]="actor.hasGanancias"></mat-checkbox></td>
           </tr>
           <tr *ngIf="actor.iti!=0&&(!isPrinted || (isPrinted&&actor.hasIti))">
             <td>Iti</td>
             <td>{{actor.iti | number}}</td>
-            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIti($event.checked, actor.actor.id)" [checked]="actor.hasIti"></mat-checkbox></td>
+            <td><mat-checkbox *ngIf="!isPrinted" (change)="checkIti($event.checked,i, actor.actor.id)" [checked]="actor.hasIti"></mat-checkbox></td>
           </tr>
           
           <tr class="table-success">
@@ -92,8 +95,9 @@
 
 
 </div>
-<div  *ngIf="datosFinales[0]" class="row d-flex justify-content-center">
-  <span  id="totalfinal"  *ngIf="datosFinales[0].total!=0"class="badge badge-success col-11 d-flex justify-content-center align-items-center">TOTAL : {{datosFinales[0].total | number}}</span>
+</div>
+<div  *ngIf="total!=0" class="row d-flex justify-content-center">
+  <span  id="totalfinal"  class="badge badge-success col-11 d-flex justify-content-center align-items-center">TOTAL : {{total | number}}</span>
 
 </div>
-</div>
+

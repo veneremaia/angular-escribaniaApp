@@ -31,6 +31,11 @@ export interface Actor{
     iti: boolean;    
 }
 
+export interface ActoActores{
+    datos: Datos;
+    actores: ActorEditable[];
+}
+
 export interface Escala{
     id : number;
     min: number;
@@ -60,8 +65,7 @@ export interface Escribania{
 
 export interface Datos{
     nombreCliente : string;
-    nombreActo : string;
-    id_acto : number;
+    acto : Acto;
     valor: number;
     honorarios: number;
     total: number;

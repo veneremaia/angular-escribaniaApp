@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActorEditable, Datos } from '../services/api-model';
+import { ActoActores } from '../services/api-model';
 import { ActoDatosService } from '../services/datos.service';
 
 
@@ -11,14 +11,14 @@ import { ActoDatosService } from '../services/datos.service';
 
 
 export class DatosViewComponent implements OnInit {
-  datosFinales: Datos[]=[];
-  datosActores: ActorEditable[]=[];
+  actosActores : ActoActores[]=[];
   // isShowed a actualizar en el service
   isShowed : boolean = false;
   isPrinted : boolean = false;
+  total : number = 0
   constructor(private datos: ActoDatosService) {
-      this.datos.actoList.subscribe(d => this.datosFinales= d);
-      this.datos.actoresList.subscribe(d => this.datosActores= d);
+      this.datos.actosActores.subscribe(d => this.actosActores= d);
+      this.datos.total.subscribe(d => this.total= d);
       // traigo el dato de si se esta mostrando o consultando
       this.datos.isShowed.subscribe(b =>this.isShowed=b);
       this.datos.isPrinted.subscribe(b =>this.isPrinted=b);
@@ -33,21 +33,24 @@ export class DatosViewComponent implements OnInit {
 
   }
 
-  updateTotal(checked : any , value : any, actorId : any) : void {
+  updateTotal(checked : any , value : any, actorId : any,index: number,) : void {
     console.log(actorId);
-    this.datosActores.forEach(element => {
+    this.actosActores[index].actores.forEach(element => {
       if(element.actor.id==actorId){
-      this.datosFinales[0].total -=element.total;
+        this.actosActores[index].datos.total -=element.total;
       element.total = (checked)? element.total + value : element.total- value;
-      this.datosFinales[0].total +=element.total;
+      this.actosActores[index].datos.total +=element.total;
       }
+    });
+    this.total = 0;
+    this.actosActores.forEach(acto => {
+      this.total += acto.datos.total;
     });
   }
 
   limpiarDatos(){
     if(!this.isShowed){
-    this.datosFinales = [];
-    this.datosActores = []; 
+    this.actosActores = [];
     this.datos.actualizarIsShowed(false);
     }
   }
@@ -62,107 +65,107 @@ clickModoImprimir(){
   this.datos.actualizarIsPrinted(this.isPrinted);
 }
 
-checkSellos(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkSellos(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasSello = checked;
-      this.updateTotal(checked, actor.sello,actorId);
+      this.updateTotal(checked, actor.sello,actorId,index);
     }})
 }
 
-checkAportes(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkAportes(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasAporte = checked;
-      this.updateTotal(checked, actor.aporte,actorId);
+      this.updateTotal(checked, actor.aporte,actorId,index);
     }})
 }
 
-checkCertificados(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkCertificados(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasCertificados = checked;
-      this.updateTotal(checked, actor.certificados,actorId);
+      this.updateTotal(checked, actor.certificados,actorId,index);
     }})
 }
 
-checkMunicipal(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkMunicipal(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasMunicipal = checked;
-      this.updateTotal(checked, actor.municipal,actorId);
+      this.updateTotal(checked, actor.municipal,actorId,index);
     }})
 }
 
-checkDiligenciamiento(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkDiligenciamiento(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasDiligenciamiento = checked;
-      this.updateTotal(checked, actor.diligenciamiento,actorId);
+      this.updateTotal(checked, actor.diligenciamiento,actorId,index);
     }})
 }
 
-checkRcd(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkRcd(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasRcd = checked;
-      this.updateTotal(checked, actor.rcd,actorId);
+      this.updateTotal(checked, actor.rcd,actorId,index);
     }})
 }
 
-checkHonorarios(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkHonorarios(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasHonorarios = checked;
-      this.updateTotal(checked, actor.honorarios,actorId);
+      this.updateTotal(checked, actor.honorarios,actorId,index);
     }})
 }
 
-checkIva(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkIva(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasIva = checked;
-      this.updateTotal(checked, actor.iva,actorId);
+      this.updateTotal(checked, actor.iva,actorId,index);
     }})
 }
 
-checkInscripcion(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkInscripcion(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasInscripcion = checked;
-      this.updateTotal(checked, actor.inscripcion,actorId);
+      this.updateTotal(checked, actor.inscripcion,actorId,index);
     }})
 }
 
-checkMatricula(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkMatricula(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasMatricula = checked;
-      this.updateTotal(checked, actor.matricula,actorId);
+      this.updateTotal(checked, actor.matricula,actorId,index);
     }})
 }
 
-checkFolios(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkFolios(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasFolios = checked;
-      this.updateTotal(checked, actor.folios,actorId);
+      this.updateTotal(checked, actor.folios,actorId,index);
     }})
 }
 
-checkGanancias(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkGanancias(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasGanancias = checked;
-      this.updateTotal(checked, actor.ganancias,actorId);
+      this.updateTotal(checked, actor.ganancias,actorId,index);
     }})
 }
 
-checkIti(checked : any, actorId: any){
-  this.datosActores.forEach(actor => {
+checkIti(checked : any,index: number, actorId: any){
+  this.actosActores[index].actores.forEach(actor => {
     if(actor.actor.id==actorId){
       actor.hasIti = checked;
-      this.updateTotal(checked, actor.iti,actorId);
+      this.updateTotal(checked, actor.iti,actorId,index);
     }})
 }
 
