@@ -280,30 +280,32 @@ calcularAporte(index : number){
     });
     if(cant!=0){
       this.actosActores[index].actores.forEach(actor=>{
+        var total = 0;
         if(actor.actor.aporte){
           actor.hasAporte=true;
           // Busca en toda la escala la fila quede entre max y min del honorario
           if(this.actosActores[index].datos.acto.p_aportes<0){
             let indiceEscala = this.getEscalaPorcentual(this.actosActores[index].datos.honorarios);
             let escala = this.escalaPorcentualApi[indiceEscala];
-            actor.aporte = escala.aporte_fijo;
+            total = escala.aporte_fijo;
             //si el aporte fijo es igual a cero es la primera
             if(escala.aporte_fijo==0)
-            actor.aporte = this.actosActores[index].datos.honorarios*escala.porcentaje_excedente/100;
+           total = this.actosActores[index].datos.honorarios*escala.porcentaje_excedente/100;
             if((this.actosActores[index].datos.honorarios > escala.min)&&(escala.min>0)){
               let excedente = this.actosActores[index].datos.honorarios - escala.min;
-              actor.aporte += (excedente*escala.porcentaje_excedente/100);    
+              total += (excedente*escala.porcentaje_excedente/100);    
             }
             if(this.actosActores[index].datos.acto.p_aportes==-2){
-              actor.aporte = actor.aporte/2;
+             total = total/2;
             }
+            actor.aporte = total/cant;
         }
         else{
           //No posee escala porcentual
           if(this.actosActores[index].datos.valor*this.actosActores[index].datos.acto.p_aportes>=this.actosActores[index].datos.acto.min_aportes)
-          actor.aporte = this.actosActores[index].datos.valor*this.actosActores[index].datos.acto.p_aportes;
+          actor.aporte = (this.actosActores[index].datos.valor*this.actosActores[index].datos.acto.p_aportes)/cant;
           else
-          actor.aporte = this.actosActores[index].datos.acto.min_aportes;
+          actor.aporte = (this.actosActores[index].datos.acto.min_aportes)/cant;
         }
       }})
     }
