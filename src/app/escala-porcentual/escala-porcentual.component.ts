@@ -35,7 +35,6 @@ export class EscalaPorcentualComponent implements OnInit {
   actualizarDatos() {
     this.actosDataService.getAllEscalas().subscribe((escalas) => {
       this.escalas = escalas;
-      this.dataSource = escalas;
     });
   }
   clickEditar() {
@@ -44,6 +43,7 @@ export class EscalaPorcentualComponent implements OnInit {
 
   clickCancelar() {
     this.editable = false;
+    this.actualizarDatos();
   }
 
   changeMax(event: any, escala: number) {
