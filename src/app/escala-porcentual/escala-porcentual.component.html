@@ -1,52 +1,100 @@
-<h3>Configuración general de Escala porcentual </h3>
-<!--
-<div *ngFor="let escala of escalas">
-
-<div class="row d-flex justify-content-start" >
-    <div class="input-group mb-3 col-4">
-        <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeNombreEscribania($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.nombre}}>
-    </div>
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Matricula</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeMatricula($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.matricula}}>
-    </div>
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Gestor</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeGestor($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.gestor}}>
-    </div>
-
-</div>
-<div class="row d-flex justify-content-start">
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">RCD</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeRcd($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.p_rcd}}>
-    </div>
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Min. RCD</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeMinRcd($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.min_rcd}}>
-    </div>
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Municipal</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeMunicipal($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.imp_municipal}}>
-    </div>
-
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Folios</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeFolios($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.folio}}>
-    </div>
-
-    <div class="input-group mb-3 col-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Certificados</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"  (keyup)="changeCertificados($event)" aria-describedby="inputGroup-sizing-default" value={{escribania.certificado}}>
-    </div>
-
-</div>
-
-</div>
-
-
-<div class="col-4">
-    <button type="button" (click)="actualizarDatos()" class="btn btn-primary btn-lg btn-block btn-info">Actualizar datos</button>
+<div *ngIf="!editable">
+  <div class="mb-3">
+    <button (click)="clickEditar()" mat-raised-button color="primary">
+      Editar
+    </button>
   </div>
--->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+    The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="min">
+      <th mat-header-cell *matHeaderCellDef>Minimo</th>
+      <td mat-cell *matCellDef="let element">$ {{ element.min }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="max">
+      <th mat-header-cell *matHeaderCellDef>Maximo</th>
+      <td mat-cell *matCellDef="let element">$ {{ element.max }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="aporte_fijo">
+      <th mat-header-cell *matHeaderCellDef>Aporte fijo</th>
+      <td mat-cell *matCellDef="let element">$ {{ element.aporte_fijo }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="porcentaje_excedente">
+      <th mat-header-cell *matHeaderCellDef>Porcentaje excedente</th>
+      <td mat-cell *matCellDef="let element">
+        % {{ element.porcentaje_excedente }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<div *ngIf="editable">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+      The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="min">
+      <th mat-header-cell *matHeaderCellDef>Minimo</th>
+      <td mat-cell *matCellDef="let element">
+        <input type="text" value="{{ element.min }}" />
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="max">
+      <th mat-header-cell *matHeaderCellDef>Maximo</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          (keyup)="changeMax($event, element.id)"
+          type="text"
+          value="{{ element.max }}"
+        />
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="aporte_fijo">
+      <th mat-header-cell *matHeaderCellDef>Aporte fijo</th>
+      <td mat-cell *matCellDef="let element">
+        <input type="text" value="{{ element.aporte_fijo }}" />
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="porcentaje_excedente">
+      <th mat-header-cell *matHeaderCellDef>Porcentaje excedente</th>
+      <td mat-cell *matCellDef="let element">
+        <input type="text" value="{{ element.porcentaje_excedente }}" />
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <div class="row d-flex justify-content-end">
+    <div class="col-1 mr-4 mb-3 mt-3">
+      <button (click)="clickCancelar()" mat-button color="primary">
+        Cancelar
+      </button>
+    </div>
+
+    <div class="col-1 mr-5 mb-3 mt-3">
+      <button (click)="clickConfirmar()" mat-raised-button color="primary">
+        Confirmar
+      </button>
+    </div>
+  </div>
+</div>
