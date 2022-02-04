@@ -1,99 +1,178 @@
-<h1>{{escribaniaDatosApi[0]?.nombre}}.-</h1>
+<h1>{{ escribaniaDatosApi[0]?.nombre }}.-</h1>
 <div class="row d-flex justify-content-between">
-<h4 class="col-6">Presupuesto.</h4>
-<h4 class="col-6 d-flex justify-content-end">{{fechaActual}}</h4>
-
+  <h4 class="col-6">Presupuesto.</h4>
+  <h4 class="col-6 d-flex justify-content-end">{{ fechaActual }}</h4>
 </div>
-<form  [formGroup]="formCalculador" (ngSubmit)="calcular()" *ngIf="!isPrinted" class="row g-3">
-<div class="col-8">
-  <mat-form-field class="col-12" appearance="fill">
-    <mat-label>Cliente</mat-label>
-    <input type="text" formControlName="nombreCliente" id="inputNombreCliente" required matInput placeholder="Ingrese nombre de cliente">
-  </mat-form-field>
+<form
+  [formGroup]="formCalculador"
+  (ngSubmit)="calcular()"
+  *ngIf="!isPrinted"
+  class="row g-3"
+>
+  <div class="col-8">
+    <mat-form-field class="col-12" appearance="fill">
+      <mat-label>Cliente</mat-label>
+      <input
+        type="text"
+        formControlName="nombreCliente"
+        id="inputNombreCliente"
+        required
+        matInput
+        placeholder="Ingrese nombre de cliente"
+      />
+    </mat-form-field>
 
-  <div class="container">
-    <div class="row d-flex justify-content-between">
-    <h3 class="col-3">Actos</h3>
-    <button class="col-2" mat-icon-button color="accent" type="button" title="Nuevo acto" (click)="addNewItem()">
-      <mat-icon>add</mat-icon> Añadir
+    <div class="container">
+      <div class="row d-flex justify-content-between">
+        <h3 class="col-3">Actos</h3>
+        <button
+          class="col-2"
+          mat-icon-button
+          color="accent"
+          type="button"
+          title="Nuevo acto"
+          (click)="addNewItem()"
+        >
+          <mat-icon>add</mat-icon> Añadir
+        </button>
+      </div>
+      <div
+        formArrayName="actosArray"
+        *ngFor="
+          let actoForm of formCalculador.get('actosArray').controls;
+          let i = index
+        "
+      >
+        <ng-container [formGroupName]="i">
+          <mat-form-field class="col-md-10 mt-2" appearance="fill">
+            <mat-label>Acto</mat-label>
+            <input
+              type="text"
+              placeholder="Seleccione acto"
+              aria-label="Acto"
+              matInput
+              formControlName="acto"
+              [matAutocomplete]="auto"
+            />
+
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let acto of filteredOptions[i] | async"
+                id="{{ acto.id }}"
+                required
+                [value]="acto.nombre_acto"
+              >
+                {{ acto.nombre_acto }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button
+            mat-icon-button
+            color="primary"
+            type="button"
+            title="Eliminar"
+            (click)="removeItem(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+
+    <mat-form-field class="col-12 mt-2" appearance="fill">
+      <mat-label>Valor</mat-label>
+      <input
+        type="number"
+        formControlName="valor"
+        id="inputValor"
+        required
+        matInput
+        placeholder="Ingrese valor"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-4 mt-2" appearance="fill">
+      <mat-label>Certificados</mat-label>
+      <input
+        type="number"
+        formControlName="certificados"
+        id="inputCertificados"
+        required
+        matInput
+        placeholder="Certificados"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-4 mt-2" appearance="fill">
+      <mat-label>Municipal</mat-label>
+      <input
+        type="number"
+        formControlName="municipal"
+        id="inputMunicipales"
+        required
+        matInput
+        placeholder="Municipal"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="col-4 mt-2" appearance="fill">
+      <mat-label>Folios</mat-label>
+      <input
+        type="number"
+        formControlName="folios"
+        id="inputFolios"
+        required
+        matInput
+        placeholder="Folios"
+      />
+      <mat-hint>No incluir duplicados</mat-hint>
+    </mat-form-field>
+    <div class="row">
+      <div class="col-6">
+        <div class="col-12">
+          <mat-checkbox formControlName="sellos">Sellos</mat-checkbox>
+        </div>
+        <div class="col-12">
+          <mat-checkbox formControlName="ganancias">Ganancias</mat-checkbox>
+        </div>
+        <div class="col-12">
+          <mat-checkbox formControlName="iti">Iti</mat-checkbox>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="col-12"></div>
+        <mat-checkbox formControlName="itgb">ITGB</mat-checkbox>
+        <div class="col-12"></div>
+        <mat-checkbox formControlName="coti">COTI</mat-checkbox>
+        <div class="col-12"></div>
+        <mat-checkbox formControlName="impuesto_cedular"
+          >Impuesto cedular</mat-checkbox
+        >
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="submit" class="col-12">
+      Calcular
     </button>
   </div>
-    <div formArrayName="actosArray" *ngFor="let actoForm of formCalculador.get('actosArray').controls; let i = index;">
-      <ng-container [formGroupName]="i">
-      
-
-        <mat-form-field  class="col-md-10  mt-2" appearance="fill">
-          <mat-label>Acto</mat-label>
-          <input type="text"
-          placeholder="Seleccione acto"
-          aria-label="Acto"
-          matInput
-          formControlName="acto"
-          [matAutocomplete]="auto">
-      
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option   *ngFor="let acto of filteredOptions[i] | async" id={{acto.id}} required [value]="acto.nombre_acto">
-              {{acto.nombre_acto}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <button mat-icon-button color="primary" type="button" title="Eliminar" (click)="removeItem(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
-
-      </ng-container>
-    </div>
-  </div>
-  
-  <mat-form-field class="col-12 mt-2" appearance="fill">
-    <mat-label>Valor</mat-label>
-    <input type="number" formControlName="valor" id="inputValor" required matInput placeholder="Ingrese valor">
-  </mat-form-field>
-
-  <mat-form-field class="col-4 mt-2" appearance="fill">
-    <mat-label>Certificados</mat-label>
-    <input type="number" formControlName="certificados" id="inputCertificados" required matInput placeholder="Certificados">
-  </mat-form-field>
-
-
-  <mat-form-field class="col-4 mt-2" appearance="fill">
-    <mat-label>Municipal</mat-label>
-    <input type="number" formControlName="municipal" id="inputMunicipales" required matInput placeholder="Municipal">
-  </mat-form-field>
-
-  <mat-form-field class="col-4 mt-2" appearance="fill">
-    <mat-label>Folios</mat-label>
-    <input type="number" formControlName="folios" id="inputFolios" required matInput placeholder="Folios">
-    <mat-hint>No incluir duplicados</mat-hint>
-  </mat-form-field>
-
-  <div class="col-12">
-  <mat-checkbox formControlName="sellos">Sellos</mat-checkbox>
-</div>
-<div class="col-12">
-  <mat-checkbox formControlName="ganancias">Ganancias</mat-checkbox>
-  <div class="col-12">
-</div>
-  <mat-checkbox formControlName="iti">Iti</mat-checkbox>
-</div>
-
-    <button mat-raised-button color="primary" type="submit"  class="col-12">Calcular</button>
-</div>
 </form>
 
-
-<div  *ngIf="isPrinted">
+<div *ngIf="isPrinted">
   <div class="list mt-5">
-  
-<p class="h4 mb-3"><em>{{actosActores[0].datos.nombreCliente}}</em></p>
-<p class="h5">{{listaActos}}</p>
-<p class="h6">Valor  ${{actosActores[0].datos.valor}}</p>
-<p class="h6" *ngIf="cantCertificados>0">Certicados : {{cantCertificados}}</p>
-<p class="h6" *ngIf="cantFolios>0">Folios : {{cantFolios}}</p>
-<p class="h6" *ngIf="tieneSello">Paga sellos</p>
-<p class="h6" *ngIf="tieneGanancia">Paga ganancias</p>
-<p class="h6" *ngIf="tieneIti">Paga iti</p>
-
-</div>
+    <p class="h4 mb-3">
+      <em>{{ actosActores[0].datos.nombreCliente }}</em>
+    </p>
+    <p class="h5">{{ listaActos }}</p>
+    <p class="h6">Valor ${{ actosActores[0].datos.valor }}</p>
+    <p class="h6" *ngIf="cantCertificados > 0">
+      Certicados : {{ cantCertificados }}
+    </p>
+    <p class="h6" *ngIf="cantFolios > 0">Folios : {{ cantFolios }}</p>
+    <p class="h6" *ngIf="tieneSello">Paga sellos</p>
+    <p class="h6" *ngIf="tieneGanancia">Paga ganancias</p>
+    <p class="h6" *ngIf="tieneIti">Paga iti</p>
+    <p class="h6" *ngIf="tieneCoti">COTI</p>
+    <p class="h6" *ngIf="tieneItgb">ITGB</p>
+    <p class="h6" *ngIf="tieneImpuestoCedular">Impuesto cedular</p>
+  </div>
 </div>
